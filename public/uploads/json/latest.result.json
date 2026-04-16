@@ -3,19 +3,19 @@
     {
       "id": "i1",
       "type": "pain",
-      "text": "Significant service delays during peak hours",
+      "text": "Significant service delays and slow order fulfillment compared to other branches",
       "usedIn": "benefits"
     },
     {
       "id": "i2",
       "type": "pain",
-      "text": "Limited and challenging parking availability",
+      "text": "Limited parking availability and challenges with valet management",
       "usedIn": "benefits"
     },
     {
       "id": "i3",
       "type": "pain",
-      "text": "Inconsistent staff professionalism and occasional rudeness",
+      "text": "Crowded environment with long waiting times during weekends",
       "usedIn": "benefits"
     },
     {
@@ -33,58 +33,55 @@
     {
       "id": "i6",
       "type": "desire",
-      "text": "Iconic and high-quality burgers like the All American Cheese Burger",
+      "text": "High-quality, consistent taste in signature dishes like burgers and Alfredo pasta",
       "usedIn": "hero"
     },
     {
       "id": "i7",
       "type": "keyword",
-      "text": "Burgers",
+      "text": "All American Cheese Burger",
       "usedIn": "cta"
     },
     {
       "id": "i8",
       "type": "keyword",
-      "text": "Brunch",
+      "text": "Italian Pasta Alfredo",
       "usedIn": "cta"
     }
   ],
   "website": {
     "hero": {
-      "headline": "Iconic Flavors, Incredible Value: Your Ultimate Comfort Food Destination.",
-      "subheadline": "From legendary burgers to decadent desserts, experience the vibrant vibe and generous portions that make Truffles a JP Nagar favorite.",
+      "headline": "Legendary Flavors, Iconic Vibes, and Prices You’ll Love.",
+      "subheadline": "Join the crowd at JP Nagar’s favorite spot for juicy burgers, creamy pastas, and decadent desserts that never break the bank.",
       "source": "desire: Exceptional value for money and pocket-friendly pricing"
     },
     "benefits": {
       "items": [
-        "Legendary Burger Selection: Featuring the iconic All American Cheese and Tandoori Chicken burgers.",
-        "Indulgent Dessert Bar: Home to the famous Banoffee Pie, Ferrero Rocher shakes, and Red Velvet sundaes.",
-        "Diverse Multi-Cuisine Menu: A wide spread ranging from Italian Pasta Alfredo to Spicy Chicken Fingers.",
-        "Family-Friendly Ambiance: A clean, lively, and welcoming environment perfect for all age groups.",
-        "Unbeatable Value: Premium culinary experiences at prices that won't burn a hole in your pocket."
+        "Signature Gourmet Burgers: From the iconic All American Cheese Burger to fusion Tandoori Chicken options.",
+        "Comforting Italian Classics: Our fan-favorite Italian Pasta Alfredo is crafted for creamy perfection every time.",
+        "Indulgent Sweet Endings: A massive selection of shakes, sundaes, and our legendary Banoffee pie.",
+        "Vibrant Social Space: A clean, lively, and buzzing atmosphere perfect for family meals or friend hangouts."
       ],
-      "source": "pain: Significant service delays during peak hours"
+      "source": "pain: Significant service delays and slow order fulfillment compared to other branches"
     },
-    "headline": "Iconic Flavors, Incredible Value: Your Ultimate Comfort Food Destination.",
-    "subheadline": "From legendary burgers to decadent desserts, experience the vibrant vibe and generous portions that make Truffles a JP Nagar favorite.",
+    "headline": "Legendary Flavors, Iconic Vibes, and Prices You’ll Love.",
+    "subheadline": "Join the crowd at JP Nagar’s favorite spot for juicy burgers, creamy pastas, and decadent desserts that never break the bank.",
     "benefitsList": [
-      "Legendary Burger Selection: Featuring the iconic All American Cheese and Tandoori Chicken burgers.",
-      "Indulgent Dessert Bar: Home to the famous Banoffee Pie, Ferrero Rocher shakes, and Red Velvet sundaes.",
-      "Diverse Multi-Cuisine Menu: A wide spread ranging from Italian Pasta Alfredo to Spicy Chicken Fingers.",
-      "Family-Friendly Ambiance: A clean, lively, and welcoming environment perfect for all age groups.",
-      "Unbeatable Value: Premium culinary experiences at prices that won't burn a hole in your pocket."
+      "Signature Gourmet Burgers: From the iconic All American Cheese Burger to fusion Tandoori Chicken options.",
+      "Comforting Italian Classics: Our fan-favorite Italian Pasta Alfredo is crafted for creamy perfection every time.",
+      "Indulgent Sweet Endings: A massive selection of shakes, sundaes, and our legendary Banoffee pie.",
+      "Vibrant Social Space: A clean, lively, and buzzing atmosphere perfect for family meals or friend hangouts."
     ],
     "testimonials": [
+      "Truffles has become my absolute favourite spot. The place never disappoints when it comes to good food, great portions, and a casual vibe.",
       "The All American Cheese Burger is an absolute showstopper—generously sized, incredibly juicy, and loaded with signature cheese burst.",
-      "Truffles continues to be my go-to place for brunches; it never fails to live up to expectations with its great food and casual vibe.",
-      "One of the best places to visit if you’re on a budget. The food is amazing, affordable, and the quantity is always good!"
+      "What I love is that despite the quality and quantity, the pricing remains quite reasonable. It’s a classic crowd-favorite."
     ],
-    "cta": "Join Us for Your Next Sunday Brunch",
+    "cta": "Visit Us for Your Next Sunday Brunch",
     "why_choose_us": [
-      "Consistent quality and taste maintained over decades.",
-      "A perfect balance of smoky fusion flavors and classic comfort dishes.",
-      "Generous portions that offer the best value for money in the city.",
-      "A vibrant, buzzing atmosphere ideal for catching up with friends and family."
+      "Unbeatable value for money with a premium culinary experience.",
+      "A diverse menu that ensures every family member finds a favorite.",
+      "Consistent quality from one of the city's most trusted food legacies."
     ]
   },
   "tone": "modern"
