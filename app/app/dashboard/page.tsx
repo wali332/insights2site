@@ -9,7 +9,7 @@ import { Card } from '../../../components/ui/Card';
 import { Button } from '../../../components/ui/Button';
 import { GenerateResponse, Website } from '../../../types';
 import { useGenerate } from '../../../hooks/useGenerate';
-import { BarChart3, BrainCircuit, CircleAlert, FileSpreadsheet, MonitorSmartphone, Save, WandSparkles, LayoutTemplate, Layers, Sparkles, MessageSquare, Target, Users, AlertTriangle, Heart } from 'lucide-react';
+import { BrainCircuit, CircleAlert, FileSpreadsheet, MonitorSmartphone, Save, WandSparkles, LayoutTemplate, Layers, Sparkles, MessageSquare, Target, Users, AlertTriangle, Heart } from 'lucide-react';
 
 const getBenefits = (website: Website): string[] => {
   if (Array.isArray(website.benefits)) {
@@ -220,9 +220,9 @@ export default function DashboardPage() {
           <Breadcrumbs
             className="mt-8"
             items={[
-              { label: 'Upload Reviews', href: '/app', icon: FileSpreadsheet },
-              { label: 'Review KPI', href: '/app/dashboard', icon: BarChart3 },
-              { label: 'Render Site', href: '/app/render', icon: MonitorSmartphone },
+              { label: 'Review Upload', href: '/app', icon: FileSpreadsheet },
+              { label: 'AI Insights', href: '/app/dashboard', icon: BrainCircuit },
+              { label: 'Website Preview', href: '/app/render', icon: MonitorSmartphone },
             ]}
           />
           <Card className="mt-8 border border-gray-200 bg-white/70 text-center p-10">
@@ -258,9 +258,9 @@ export default function DashboardPage() {
         <Breadcrumbs
           className="mt-8"
           items={[
-            { label: 'Upload Reviews', href: '/app', icon: FileSpreadsheet },
+            { label: 'Review Upload', href: '/app', icon: FileSpreadsheet },
             { label: 'AI Insights', href: '/app/dashboard', icon: BrainCircuit },
-            { label: 'Render Site', href: '/app/render', icon: MonitorSmartphone },
+            { label: 'Website Preview', href: '/app/render', icon: MonitorSmartphone },
           ]}
         />
 
@@ -378,7 +378,7 @@ export default function DashboardPage() {
                 <Button onClick={handleGenerateSite} disabled={saving} className="rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-lg transition">
                   <span className="inline-flex items-center gap-1.5">
                     <WandSparkles className="h-4 w-4 text-indigo-100" />
-                    Render Site
+                    Open Website Preview
                   </span>
                 </Button>
               </div>

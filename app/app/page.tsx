@@ -7,7 +7,7 @@ import { Breadcrumbs } from '../../components/layout/Breadcrumbs';
 import dynamic from 'next/dynamic';
 import { useGenerate } from '../../hooks/useGenerate';
 import { Card } from '../../components/ui/Card';
-import { BarChart3, FileSpreadsheet, MonitorSmartphone } from 'lucide-react';
+import { BarChart3, BrainCircuit, FileSpreadsheet, MonitorSmartphone } from 'lucide-react';
 
 const InputSection = dynamic(
   () => import('../../components/input/InputSection').then((module) => module.InputSection),
@@ -45,9 +45,9 @@ export default function AppPage() {
         <div className="mt-8 flex flex-1 flex-col gap-6">
           <Breadcrumbs
             items={[
-              { label: 'Upload Reviews', href: '/app', icon: FileSpreadsheet },
-              { label: 'Review KPI', href: '/app/dashboard', icon: BarChart3 },
-              { label: 'Render Site', href: '/app/render', icon: MonitorSmartphone },
+              { label: 'Review Upload', href: '/app', icon: FileSpreadsheet },
+              { label: 'AI Insights', href: '/app/dashboard', icon: BrainCircuit },
+              { label: 'Website Preview', href: '/app/render', icon: MonitorSmartphone },
             ]}
           />
 

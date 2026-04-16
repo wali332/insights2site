@@ -7,7 +7,7 @@ import { Breadcrumbs } from '../../../components/layout/Breadcrumbs';
 import { Card } from '../../../components/ui/Card';
 import { WebsitePreview } from '../../../components/preview/WebsitePreview';
 import { useGenerate } from '../../../hooks/useGenerate';
-import { BarChart3, CircleAlert, FileSpreadsheet, MonitorSmartphone } from 'lucide-react';
+import { BrainCircuit, CircleAlert, FileSpreadsheet, MonitorSmartphone } from 'lucide-react';
 
 export default function RenderPage() {
   const { website, tone, insights, hasCachedResponse, hydrateFromCache } = useGenerate();
@@ -27,9 +27,9 @@ export default function RenderPage() {
         <Breadcrumbs
           className="mt-8"
           items={[
-            { label: 'Upload Reviews', href: '/app', icon: FileSpreadsheet },
-            { label: 'Review KPI', href: '/app/dashboard', icon: BarChart3 },
-            { label: 'Render Site', href: '/app/render', icon: MonitorSmartphone },
+            { label: 'Review Upload', href: '/app', icon: FileSpreadsheet },
+            { label: 'AI Insights', href: '/app/dashboard', icon: BrainCircuit },
+            { label: 'Website Preview', href: '/app/render', icon: MonitorSmartphone },
           ]}
         />
 
