@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar } from '../components/layout/Navbar';
 import Link from 'next/link';
+import { BadgeCheck, Bot, Building2, ChevronRight, CircleHelp, Crown, FileSearch, Megaphone, Orbit, Rocket, ShieldCheck, Sparkles, Users, Workflow, Wrench } from 'lucide-react';
 
 export default function LandingPage() {
   return (
@@ -222,51 +223,177 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Trust Metrics */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative z-10">
+        <div className="rounded-3xl border border-gray-200 bg-white/80 backdrop-blur-sm p-6 sm:p-8 lg:p-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+            <div className="rounded-2xl border border-gray-100 bg-gray-50/60 p-5">
+              <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-gray-500 mb-2">
+                <Users className="h-3.5 w-3.5" /> Teams
+              </div>
+              <p className="text-3xl font-bold text-gray-900">1,900+</p>
+              <p className="text-sm text-gray-500 mt-1">Product and growth teams</p>
+            </div>
+            <div className="rounded-2xl border border-gray-100 bg-gray-50/60 p-5">
+              <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-gray-500 mb-2">
+                <FileSearch className="h-3.5 w-3.5" /> Reviews
+              </div>
+              <p className="text-3xl font-bold text-gray-900">18M+</p>
+              <p className="text-sm text-gray-500 mt-1">Feedback lines analyzed</p>
+            </div>
+            <div className="rounded-2xl border border-gray-100 bg-gray-50/60 p-5">
+              <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-gray-500 mb-2">
+                <Workflow className="h-3.5 w-3.5" /> Workflow
+              </div>
+              <p className="text-3xl font-bold text-gray-900">3 mins</p>
+              <p className="text-sm text-gray-500 mt-1">Average idea to draft site</p>
+            </div>
+            <div className="rounded-2xl border border-gray-100 bg-gray-50/60 p-5">
+              <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-gray-500 mb-2">
+                <ShieldCheck className="h-3.5 w-3.5" /> Reliability
+              </div>
+              <p className="text-3xl font-bold text-gray-900">99.9%</p>
+              <p className="text-sm text-gray-500 mt-1">Uptime on generation APIs</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Who It Is For */}
+      <section id="use-cases" className="py-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative z-10">
+        <div className="mb-14 text-left">
+          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4 tracking-tight">Built For Teams That Ship Fast</h2>
+          <p className="text-lg text-gray-500 max-w-2xl">
+            Whether you are validating a new product, relaunching a landing page, or improving conversion copy, Insight2Site keeps your messaging grounded in real voice-of-customer data.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          <article className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition">
+            <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 text-gray-800 mb-4">
+              <Megaphone className="h-5 w-5" />
+            </div>
+            <h3 className="text-lg font-bold text-gray-900 mb-2">Marketing Teams</h3>
+            <p className="text-sm text-gray-600 leading-relaxed mb-4">Turn testimonial dumps into clear value propositions and CTA variants your audience actually responds to.</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">Best for: Campaign pages</p>
+          </article>
+
+          <article className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition">
+            <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 text-gray-800 mb-4">
+              <Building2 className="h-5 w-5" />
+            </div>
+            <h3 className="text-lg font-bold text-gray-900 mb-2">Founders and Startups</h3>
+            <p className="text-sm text-gray-600 leading-relaxed mb-4">Skip blank-page syndrome and launch credible pages quickly while still sounding customer-informed.</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">Best for: MVP and launch pages</p>
+          </article>
+
+          <article className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-md transition">
+            <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 text-gray-800 mb-4">
+              <Wrench className="h-5 w-5" />
+            </div>
+            <h3 className="text-lg font-bold text-gray-900 mb-2">Agencies and Freelancers</h3>
+            <p className="text-sm text-gray-600 leading-relaxed mb-4">Create first-draft landing pages faster, then refine with clients in a structured KPI and content review flow.</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gray-500">Best for: Client delivery</p>
+          </article>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="py-24 bg-gray-50 border-y border-gray-200 relative z-10">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-14 text-left">
+            <h2 className="inline-flex items-center gap-2 text-3xl lg:text-4xl font-bold text-gray-900 mb-4 tracking-tight"><CircleHelp className="h-7 w-7 text-gray-700" />Frequently Asked Questions</h2>
+            <p className="text-lg text-gray-500">Everything teams usually ask before adopting Insight2Site.</p>
+          </div>
+
+          <div className="space-y-4">
+            <details className="group rounded-2xl border border-gray-200 bg-white p-5 open:shadow-md open:border-gray-300 transition-all">
+              <summary className="list-none cursor-pointer flex items-center justify-between gap-3 text-gray-900 font-semibold text-base">
+                Do I need technical knowledge to use it?
+                <ChevronRight className="h-5 w-5 text-gray-400 transition-transform duration-300 group-open:rotate-90" />
+              </summary>
+              <p className="mt-3 text-sm text-gray-600 leading-relaxed pr-8">No. Upload your reviews CSV, select the review column, and generate. You can edit KPI and copy in a dashboard before rendering the final HTML.</p>
+            </details>
+
+            <details className="group rounded-2xl border border-gray-200 bg-white p-5 open:shadow-md open:border-gray-300 transition-all">
+              <summary className="list-none cursor-pointer flex items-center justify-between gap-3 text-gray-900 font-semibold text-base">
+                Can I reuse generated data without calling the model again?
+                <ChevronRight className="h-5 w-5 text-gray-400 transition-transform duration-300 group-open:rotate-90" />
+              </summary>
+              <p className="mt-3 text-sm text-gray-600 leading-relaxed pr-8">Yes. Cached JSON can be reused, and drafts are also saved physically on the server so your team can continue editing without extra generation calls.</p>
+            </details>
+
+            <details className="group rounded-2xl border border-gray-200 bg-white p-5 open:shadow-md open:border-gray-300 transition-all">
+              <summary className="list-none cursor-pointer flex items-center justify-between gap-3 text-gray-900 font-semibold text-base">
+                What output formats do I get?
+                <ChevronRight className="h-5 w-5 text-gray-400 transition-transform duration-300 group-open:rotate-90" />
+              </summary>
+              <p className="mt-3 text-sm text-gray-600 leading-relaxed pr-8">You get structured insight JSON plus a final downloadable HTML landing page generated from one of multiple template styles.</p>
+            </details>
+
+            <details className="group rounded-2xl border border-gray-200 bg-white p-5 open:shadow-md open:border-gray-300 transition-all">
+              <summary className="list-none cursor-pointer flex items-center justify-between gap-3 text-gray-900 font-semibold text-base">
+                Is my review data private?
+                <ChevronRight className="h-5 w-5 text-gray-400 transition-transform duration-300 group-open:rotate-90" />
+              </summary>
+              <p className="mt-3 text-sm text-gray-600 leading-relaxed pr-8">The app stores generated artifacts and drafts in your own deployment environment. You control hosting, access, and retention policy for uploaded files.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing Section */}
       <section id="pricing" className="py-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4 tracking-tight">Transparent Pricing</h2>
+          <h2 className="inline-flex items-center gap-2 text-3xl font-bold text-gray-900 mb-4 tracking-tight"><BadgeCheck className="h-7 w-7 text-gray-700" />Transparent Pricing</h2>
           <p className="text-lg text-gray-500">Simple plans. Upgrade out of the free tier when you&apos;re ready.</p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          <div className="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col hover:border-gray-300 transition shadow-sm">
+          <div className="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col hover:border-gray-300 transition shadow-sm hover:shadow-md">
+            <div className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-600 w-fit">
+              <BadgeCheck className="h-3.5 w-3.5" /> For starters
+            </div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">Free</h3>
             <div className="text-3xl font-bold text-gray-900 mb-6">$0<span className="text-lg text-gray-500 font-normal">/mo</span></div>
             <ul className="space-y-3 mb-8 flex-1 text-gray-600 text-sm">
-              <li className="flex items-start gap-2"><span className="text-gray-400">✓</span> Limited generations</li>
-              <li className="flex items-start gap-2"><span className="text-gray-400">✓</span> Basic insights logic</li>
-              <li className="flex items-start gap-2"><span className="text-gray-400">✓</span> Manual input only</li>
+              <li className="flex items-start gap-2"><BadgeCheck className="h-4 w-4 mt-0.5 text-gray-500" />Limited generations</li>
+              <li className="flex items-start gap-2"><BadgeCheck className="h-4 w-4 mt-0.5 text-gray-500" />Basic insights logic</li>
+              <li className="flex items-start gap-2"><BadgeCheck className="h-4 w-4 mt-0.5 text-gray-500" />Manual input only</li>
             </ul>
             <button className="w-full bg-white border border-gray-200 hover:bg-gray-50 text-gray-900 font-semibold py-2.5 rounded-xl transition">
               Current Plan
             </button>
           </div>
 
-          <div className="bg-white border-2 border-gray-900 rounded-2xl p-8 shadow-xl relative flex flex-col scale-[1.02] z-10">
-            <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-3 py-0.5 rounded-full text-xs font-bold tracking-wide">
-              PRO
+          <div className="bg-white border-2 border-gray-900 rounded-2xl p-8 shadow-xl relative flex flex-col scale-[1.02] z-10 before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-b before:from-gray-900/5 before:to-transparent before:pointer-events-none">
+            <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-3 py-0.5 rounded-full text-xs font-bold tracking-wide inline-flex items-center gap-1">
+              <Crown className="h-3 w-3" /> PRO
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">Professional</h3>
             <div className="text-3xl font-bold text-gray-900 mb-6">$49<span className="text-lg text-gray-500 font-normal">/mo</span></div>
             <ul className="space-y-3 mb-8 flex-1 text-gray-700 text-sm font-medium">
-              <li className="flex items-start gap-2"><span className="text-gray-900">✓</span> Unlimited generations</li>
-              <li className="flex items-start gap-2"><span className="text-gray-900">✓</span> Advanced insights matching</li>
-              <li className="flex items-start gap-2"><span className="text-gray-900">✓</span> Tailwind theme exports</li>
-              <li className="flex items-start gap-2"><span className="text-gray-900">✓</span> Priority support</li>
+              <li className="flex items-start gap-2"><BadgeCheck className="h-4 w-4 mt-0.5 text-gray-900" />Unlimited generations</li>
+              <li className="flex items-start gap-2"><BadgeCheck className="h-4 w-4 mt-0.5 text-gray-900" />Advanced insights matching</li>
+              <li className="flex items-start gap-2"><BadgeCheck className="h-4 w-4 mt-0.5 text-gray-900" />Tailwind theme exports</li>
+              <li className="flex items-start gap-2"><BadgeCheck className="h-4 w-4 mt-0.5 text-gray-900" />Priority support</li>
             </ul>
-            <button className="w-full bg-gray-900 hover:bg-gray-800 text-white font-semibold py-2.5 rounded-xl shadow-md transition transform hover:scale-105 active:scale-95 duration-300">
+            <button className="w-full inline-flex items-center justify-center gap-2 bg-gray-900 hover:bg-gray-800 text-white font-semibold py-2.5 rounded-xl shadow-md transition transform hover:scale-105 active:scale-95 duration-300">
+              <Rocket className="h-4 w-4" />
               Upgrade Now
             </button>
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col hover:border-gray-300 transition shadow-sm md:col-span-2 lg:col-span-1">
+          <div className="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col hover:border-gray-300 transition shadow-sm hover:shadow-md md:col-span-2 lg:col-span-1">
+            <div className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-600 w-fit">
+              <Building2 className="h-3.5 w-3.5" /> For scale
+            </div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">Business</h3>
             <div className="text-3xl font-bold text-gray-900 mb-6">$199<span className="text-lg text-gray-500 font-normal">/mo</span></div>
             <ul className="space-y-3 mb-8 flex-1 text-gray-600 text-sm">
-              <li className="flex items-start gap-2"><span className="text-gray-400">✓</span> Bulk automated processing</li>
-              <li className="flex items-start gap-2"><span className="text-gray-400">✓</span> Native REST API access</li>
-              <li className="flex items-start gap-2"><span className="text-gray-400">✓</span> Team workspaces</li>
+              <li className="flex items-start gap-2"><BadgeCheck className="h-4 w-4 mt-0.5 text-gray-500" />Bulk automated processing</li>
+              <li className="flex items-start gap-2"><BadgeCheck className="h-4 w-4 mt-0.5 text-gray-500" />Native REST API access</li>
+              <li className="flex items-start gap-2"><BadgeCheck className="h-4 w-4 mt-0.5 text-gray-500" />Team workspaces</li>
             </ul>
             <button className="w-full bg-white border border-gray-200 hover:bg-gray-50 text-gray-900 font-semibold py-2.5 rounded-xl transition">
               Contact Sales
@@ -275,20 +402,47 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Final CTA */}
+      <section className="pb-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative z-10">
+        <div className="rounded-3xl border border-gray-200 bg-gradient-to-br from-white to-gray-100 p-8 sm:p-10 lg:p-12 shadow-sm">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-gray-600 mb-4">
+                <Bot className="h-3.5 w-3.5" /> AI + Customer Signal
+              </div>
+              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 tracking-tight mb-3">Ship your next landing page with confidence.</h2>
+              <p className="text-gray-600 text-lg max-w-2xl">Go from raw feedback to structured messaging and downloadable HTML in one flow, without losing the voice of your customer.</p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3 shrink-0">
+              <Link href="/app" className="inline-flex items-center justify-center gap-2 rounded-xl bg-gray-900 px-6 py-3 text-white font-semibold hover:bg-gray-800 transition">
+                <Sparkles className="h-4 w-4" />
+                Open The App
+              </Link>
+              <Link href="#pricing" className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white px-6 py-3 text-gray-800 font-semibold hover:bg-gray-50 transition">
+                Compare Plans
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 py-12">
+      <footer className="bg-gray-950 border-t border-gray-800 py-12 text-gray-300">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="flex items-center gap-2">
-              <span className="font-bold text-xl text-gray-900 tracking-tight">Insight2Site</span>
+              <Orbit className="h-5 w-5 text-gray-300" />
+              <span className="font-bold text-xl text-white tracking-tight">Insight2Site</span>
             </div>
-            <div className="flex gap-6 text-sm text-gray-500 font-medium">
-              <Link href="#how-it-works" className="hover:text-gray-900 transition">How It Works</Link>
-              <Link href="#demo" className="hover:text-gray-900 transition">Features</Link>
-              <Link href="#pricing" className="hover:text-gray-900 transition">Pricing</Link>
+            <div className="flex gap-6 text-sm text-gray-400 font-medium">
+              <Link href="#how-it-works" className="hover:text-white transition">How It Works</Link>
+              <Link href="#use-cases" className="hover:text-white transition">Use Cases</Link>
+              <Link href="#faq" className="hover:text-white transition">FAQ</Link>
+              <Link href="#pricing" className="hover:text-white transition">Pricing</Link>
             </div>
           </div>
-          <div className="mt-8 pt-8 border-t border-gray-100 flex justify-between items-center text-sm text-gray-400">
+          <div className="mt-8 pt-8 border-t border-gray-800 flex justify-between items-center text-sm text-gray-500">
             <p>&copy; {new Date().getFullYear()} Insight2Site Inc. All rights reserved.</p>
           </div>
         </div>
