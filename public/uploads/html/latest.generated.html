@@ -20,89 +20,92 @@
         }
     </script>
 </head>
-<body class="bg-[#FFFBEB] text-[#451A03] font-sans antialiased">
+<body class="bg-bg text-primary font-sans antialiased">
 
     <!-- Header -->
-    <header class="container mx-auto px-6 py-6 flex justify-between items-center">
-        <div class="text-2xl font-bold tracking-tight">Selenophile Cafe</div>
+    <header class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
+        <div class="text-2xl font-bold tracking-tight text-primary">Selenophile Cafe</div>
         <nav class="hidden md:flex space-x-8 font-medium">
-            <a href="#benefits" class="hover:text-[#92400E]">Features</a>
-            <a href="#testimonials" class="hover:text-[#92400E]">Community</a>
-            <a href="#cta" class="bg-[#92400E] text-white px-5 py-2 rounded-full hover:bg-[#451A03] transition">Book Now</a>
+            <a href="#benefits" class="hover:text-secondary transition">Benefits</a>
+            <a href="#testimonials" class="hover:text-secondary transition">Stories</a>
+            <a href="#cta" class="bg-primary text-white px-5 py-2 rounded-full hover:bg-secondary transition">Book Space</a>
         </nav>
     </header>
 
-    <!-- Hero -->
     <main>
-        <section class="container mx-auto px-6 py-12 md:py-20 grid md:grid-cols-2 gap-12 items-center">
+        <!-- Hero Section -->
+        <section class="max-w-7xl mx-auto px-8 py-12 md:py-20 grid md:grid-cols-2 gap-12 items-center">
             <div>
                 <h1 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6">Work, Dine, and Connect in BTM’s Favorite Hidden Gem</h1>
-                <p class="text-lg text-[#92400E] mb-8 leading-relaxed">Experience the perfect blend of artisanal continental cuisine, premium barista coffee, and a serene co-working environment designed for productivity and play.</p>
-                <a href="#cta" class="inline-block bg-[#F59E0B] text-[#451A03] font-bold px-8 py-4 rounded-lg hover:bg-[#d97706] transition shadow-lg">Explore Our Space</a>
+                <p class="text-lg text-secondary mb-8 leading-relaxed">Experience the perfect blend of artisanal continental cuisine, premium barista coffee, and a serene co-working environment designed for productivity and play.</p>
+                <div class="flex gap-4">
+                    <a href="#cta" class="bg-accent text-white px-8 py-4 rounded-lg font-bold hover:bg-secondary transition shadow-lg">Explore Kunafa & Co-working</a>
+                </div>
             </div>
-            <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&h=600&fit=crop" alt="Cozy cafe interior with warm lighting and workspace setup" class="rounded-2xl shadow-2xl">
+            <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&h=600&fit=crop" alt="Cozy cafe interior with people working on laptops and enjoying coffee" class="rounded-2xl shadow-2xl">
         </section>
 
-        <!-- Benefits -->
-        <section id="benefits" class="bg-[#451A03] text-[#FFFBEB] py-20">
-            <div class="container mx-auto px-6">
-                <h2 class="text-4xl font-bold mb-16 text-center">Why Startups Love Us</h2>
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="p-6 border border-[#92400E] rounded-xl">
-                        <h3 class="text-xl font-bold mb-3 text-[#F59E0B]">Productive Hub</h3>
-                        <p class="text-sm opacity-90">High-speed free Wi-Fi and dedicated meeting rooms for seamless WFH sessions.</p>
+        <!-- Benefits Section -->
+        <section id="benefits" class="bg-white py-20">
+            <div class="max-w-7xl mx-auto px-8">
+                <h2 class="text-4xl font-bold text-center mb-16">Why Startups Love Selenophile</h2>
+                <div class="grid md:grid-cols-2 gap-10">
+                    <div class="p-8 border border-amber-100 rounded-xl bg-bg">
+                        <h3 class="text-xl font-bold mb-3">Productive Co-working Hub</h3>
+                        <p>High-speed free Wi-Fi and dedicated meeting rooms for seamless WFH sessions. We keep the vibe calm so you stay focused.</p>
                     </div>
-                    <div class="p-6 border border-[#92400E] rounded-xl">
-                        <h3 class="text-xl font-bold mb-3 text-[#F59E0B]">Signature Menu</h3>
-                        <p class="text-sm opacity-90">From authentic Turkish Kunafa to creamy Pesto Pasta and gourmet burgers.</p>
+                    <div class="p-8 border border-amber-100 rounded-xl bg-bg">
+                        <h3 class="text-xl font-bold mb-3">Signature Continental Menu</h3>
+                        <p>From authentic Turkish Kunafa to creamy Pesto Pasta and gourmet burgers. Fuel your hustle with high-quality ingredients.</p>
                     </div>
-                    <div class="p-6 border border-[#92400E] rounded-xl">
-                        <h3 class="text-xl font-bold mb-3 text-[#F59E0B]">Networking</h3>
-                        <p class="text-sm opacity-90">Regular mixers designed to help freelancers and entrepreneurs connect.</p>
+                    <div class="p-8 border border-amber-100 rounded-xl bg-bg">
+                        <h3 class="text-xl font-bold mb-3">Community Networking</h3>
+                        <p>Regular mixers and get-togethers designed to help freelancers and entrepreneurs connect in a relaxed setting.</p>
                     </div>
-                    <div class="p-6 border border-[#92400E] rounded-xl">
-                        <h3 class="text-xl font-bold mb-3 text-[#F59E0B]">Entertainment</h3>
-                        <p class="text-sm opacity-90">Board games and Rubik's cubes to enjoy while your fresh meal is prepared.</p>
+                    <div class="p-8 border border-amber-100 rounded-xl bg-bg">
+                        <h3 class="text-xl font-bold mb-3">Interactive Entertainment</h3>
+                        <p>A variety of board games and Rubik's cubes to enjoy while your fresh meal is prepared. Take a break, you've earned it.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Testimonials -->
-        <section id="testimonials" class="container mx-auto px-6 py-20">
+        <section id="testimonials" class="py-20 max-w-7xl mx-auto px-8">
             <h2 class="text-4xl font-bold text-center mb-16">What Our Community Says</h2>
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-[#F59E0B]/20">
-                    <p class="italic mb-6">"A hidden gem for WFH folks. Cozy working space, great coffee, and the signature Kunafa is a must-try!"</p>
-                    <span class="font-bold text-[#92400E]">— Startup Founder</span>
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-amber-100">
+                    <p class="italic mb-4">"A hidden gem for WFH folks. Cozy working space, great coffee, and the signature Kunafa is a must-try!"</p>
+                    <p class="font-bold text-secondary">— Freelance Designer</p>
                 </div>
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-[#F59E0B]/20">
-                    <p class="italic mb-6">"The networking mixers have been beneficial for my freelance business. Best place for meetings in BTM."</p>
-                    <span class="font-bold text-[#92400E]">— Freelance Designer</span>
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-amber-100">
+                    <p class="italic mb-4">"The networking mixers have been beneficial for my freelance business. Best place for meetings in BTM."</p>
+                    <p class="font-bold text-secondary">— Startup Founder</p>
                 </div>
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-[#F59E0B]/20">
-                    <p class="italic mb-6">"Amazing food and service. The environment is so calm and cool, perfect for getting work done."</p>
-                    <span class="font-bold text-[#92400E]">— Remote Developer</span>
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-amber-100">
+                    <p class="italic mb-4">"Amazing food and service. The environment is so calm and cool, perfect for getting work done or hanging out."</p>
+                    <p class="font-bold text-secondary">— Remote Developer</p>
                 </div>
             </div>
         </section>
 
-        <!-- CTA -->
-        <section id="cta" class="container mx-auto px-6 py-20 text-center">
-            <div class="max-w-3xl mx-auto bg-[#92400E] text-white p-12 rounded-3xl">
-                <h2 class="text-4xl font-bold mb-6">Ready to Experience Selenophile?</h2>
-                <p class="text-xl mb-8 opacity-90">Whether you're craving our signature Kunafa or need a quiet corner for Co-working, we're ready for you.</p>
-                <button class="bg-[#F59E0B] text-[#451A03] font-bold px-10 py-4 rounded-full hover:bg-white transition">Visit Us or Book a Meeting Space</button>
+        <!-- CTA Section -->
+        <section id="cta" class="bg-primary text-bg py-20">
+            <div class="max-w-4xl mx-auto px-8 text-center">
+                <h2 class="text-4xl font-bold mb-6">Ready to elevate your workday?</h2>
+                <p class="text-xl mb-10 opacity-90">Whether you're craving our signature Kunafa or need a quiet corner for a meeting, we've got the space for you.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#" class="bg-accent text-primary px-8 py-4 rounded-lg font-bold hover:bg-white transition">Visit Us Today</a>
+                    <a href="#" class="border border-accent text-accent px-8 py-4 rounded-lg font-bold hover:bg-accent hover:text-primary transition">Book Meeting Space</a>
+                </div>
             </div>
         </section>
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-[#92400E]/20 py-12">
-        <div class="container mx-auto px-6 text-center text-[#92400E]">
-            <p>&copy; 2026 Selenophile Cafe. All rights reserved.</p>
-            <p class="text-sm mt-2">BTM Layout, Bangalore | Crafted for Creators</p>
-        </div>
+    <footer class="py-10 text-center text-secondary border-t border-amber-200">
+        <p>&copy; 2026 Selenophile Cafe. All rights reserved.</p>
+        <p class="text-sm mt-2">BTM Layout, Bangalore | Designed for Productivity</p>
     </footer>
 
 </body>

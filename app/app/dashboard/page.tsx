@@ -8,7 +8,7 @@ import { Card } from '../../../components/ui/Card';
 import { Button } from '../../../components/ui/Button';
 import { ColorPaletteOption, DashboardGenerationReasons, GenerateResponse, Insight, Website } from '../../../types';
 import { useGenerate } from '../../../hooks/useGenerate';
-import { BrainCircuit, CircleAlert, FileSpreadsheet, Save, WandSparkles, LayoutTemplate, Layers, Sparkles, MessageSquare, Target, Users, AlertTriangle, Heart, LoaderCircle } from 'lucide-react';
+import { BrainCircuit, CircleAlert, FileSpreadsheet, Save, WandSparkles, LayoutTemplate, Layers, Sparkles, MessageSquare, Target, Users, AlertTriangle, Heart, Download, LoaderCircle } from 'lucide-react';
 
 const FALLBACK_COLOR_PALETTES: ColorPaletteOption[] = [
   {
@@ -276,6 +276,7 @@ export default function DashboardPage() {
 
   const [saving, setSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
+  const [generatedHtml, setGeneratedHtml] = useState<string | null>(null);
 
   useEffect(() => {
     hydrateFromCache();
@@ -368,6 +369,22 @@ export default function DashboardPage() {
     return colorPalettes.find((palette) => palette.name === selectedPaletteName) || colorPalettes[0];
   }, [colorPalettes, selectedPaletteName]);
 
+  const handleDownloadHtml = () => {
+    if (!generatedHtml) {
+      setSaveMessage('No generated site available. Generate first.');
+      return;
+    }
+
+    const element = document.createElement('a');
+    const file = new Blob([generatedHtml], { type: 'text/html' });
+    element.href = URL.createObjectURL(file);
+    element.download = `${companyName || 'website'}-${new Date().toISOString().split('T')[0]}.html`;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+    setSaveMessage('HTML file downloaded successfully.');
+  };
+
   const handleSaveDraft = async () => {
     if (!cachedResponse) {
       return;
@@ -408,13 +425,8 @@ export default function DashboardPage() {
       return;
     }
 
-    const previewTab = window.open('about:blank', '_blank');
-    if (!previewTab) {
-      setSaveMessage('Popup blocked. Please allow popups for this site and try again.');
-      return;
-    }
-
     setSaveMessage(null);
+    setGeneratedHtml(null);
 
     const draft = buildCurrentDraftFromState({
       source: cachedResponse,
@@ -446,16 +458,30 @@ export default function DashboardPage() {
     });
 
     if (!html) {
-      previewTab.close();
       setSaveMessage('Failed to generate HTML. Please try again.');
       return;
     }
 
-    previewTab.document.open();
-    previewTab.document.write(html);
-    previewTab.document.close();
+    setGeneratedHtml(html);
+    setSaveMessage('Site created. Click Open Site to preview it.');
+  };
 
-    setSaveMessage('Site generated and opened in a new tab.');
+  const handleOpenHtml = () => {
+    if (!generatedHtml) {
+      setSaveMessage('No generated site available. Generate first.');
+      return;
+    }
+
+    const previewTab = window.open('about:blank', '_blank');
+    if (!previewTab) {
+      setSaveMessage('Popup blocked. Please allow popups for this site and try again.');
+      return;
+    }
+
+    previewTab.document.open();
+    previewTab.document.write(generatedHtml);
+    previewTab.document.close();
+    setSaveMessage('Opening generated site in a new tab.');
   };
 
   if (!hasCachedResponse || !cachedResponse) {
@@ -633,10 +659,26 @@ export default function DashboardPage() {
                     {saving ? 'Saving...' : 'Save Draft'}
                   </span>
                 </Button>
+                {generatedHtml && (
+                  <Button onClick={handleDownloadHtml} className="rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white shadow-md hover:shadow-lg transition">
+                    <span className="inline-flex items-center gap-1.5">
+                      <Download className="h-4 w-4" />
+                      Download HTML
+                    </span>
+                  </Button>
+                )}
+                {generatedHtml && (
+                  <Button onClick={handleOpenHtml} className="rounded-xl bg-cyan-700 hover:bg-cyan-800 text-white shadow-md hover:shadow-lg transition">
+                    <span className="inline-flex items-center gap-1.5">
+                      <WandSparkles className="h-4 w-4 text-cyan-100" />
+                      Open Site
+                    </span>
+                  </Button>
+                )}
                 <Button onClick={handleGenerateSite} disabled={saving || generatingHtml} className="rounded-xl bg-gray-900 hover:bg-gray-800 text-white shadow-md hover:shadow-lg transition">
                   <span className="inline-flex items-center gap-1.5">
                     <WandSparkles className="h-4 w-4 text-gray-200" />
-                    {generatingHtml ? 'Generating Site...' : 'Generate and Open Site'}
+                    Generate Site
                   </span>
                 </Button>
               </div>
@@ -646,7 +688,7 @@ export default function DashboardPage() {
               {generatingHtml ? (
                 <div className="rounded-xl border border-cyan-200 bg-cyan-50 px-4 py-3 text-sm text-cyan-900 flex items-center gap-2 font-medium shadow-sm">
                   <LoaderCircle className="h-4 w-4 animate-spin" />
-                  Generating with Gemini... building and opening your final site from the finalized insights.
+                  Creating your site. This can take a few moments.
                 </div>
               ) : null}
 

@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Insights2Site
+
+Insights2Site turns customer reviews into a generated website. Paste review text or upload a CSV, extract insights, customize the copy on the dashboard, then generate and preview a full HTML landing page.
+
+## What It Does
+
+- Converts raw customer feedback into structured insights.
+- Generates homepage copy such as headline, subheadline, benefits, testimonials, CTA, and brand name suggestions.
+- Lets you edit the generated draft before final output.
+- Produces a complete HTML landing page and lets you download it.
+- Persists generated JSON and HTML artifacts locally under `public/uploads`.
+
+## Main Routes
+
+- `/` - Marketing landing page.
+- `/app` - Review upload and CSV onboarding flow.
+- `/app/dashboard` - AI insights editor and site generator.
+- `/api/generate` - Builds structured insight and copy data from reviews.
+- `/api/save-response` - Persists the generated dashboard response.
+- `/api/generate-html` - Generates the final HTML landing page.
+
+## Requirements
+
+- Node.js 20 or newer.
+- A Gemini API key.
+
+## Environment Variables
+
+Create a `.env.local` file in the project root and add:
+
+```bash
+GEMINI_API_KEY=your_api_key_here
+# Optional
+GEMINI_MODEL=gemini-3-flash-preview
+```
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Typical Flow
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Open `/app` and upload a CSV or paste review data.
+2. Generate insights and review the extracted copy.
+3. Open `/app/dashboard` to edit the generated content and brand fields.
+4. Click `Generate Site` to build the HTML preview.
+5. Use `Open Site` to view the generated page in a new tab.
+6. Use `Download HTML` to save the generated file locally.
 
-## Learn More
+## Available Scripts
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run dev
+npm run build
+npm run start
+npm run lint
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Notes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- The app uses the Next.js App Router.
+- Generated JSON is cached in the browser and also written to `public/uploads/json`.
+- Generated HTML is written to `public/uploads/html`.
+- The dashboard loading state is shown while HTML generation is in progress.
 
-## Deploy on Vercel
+## Technology Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- Google Gemini API
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+
+This project can be deployed like a standard Next.js app. Make sure the Gemini API key is configured in the target environment.
