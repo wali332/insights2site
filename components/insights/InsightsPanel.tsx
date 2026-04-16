@@ -16,7 +16,7 @@ export const InsightsPanel: React.FC<InsightsPanelProps> = ({
 }) => {
   if (insights.length === 0) {
     return (
-      <Card className="h-full flex flex-col items-center justify-center text-center p-8 bg-white/50 border-dashed border-2 border-gray-200">
+      <Card className="h-full flex flex-col items-center justify-center text-center p-8 bg-white/60 border-dashed border-2 border-gray-200">
         <div className="text-4xl mb-4 opacity-50">🔍</div>
         <h3 className="text-lg font-semibold text-gray-700 mb-2">No Insights Yet</h3>
         <p className="text-gray-500 text-sm">Upload your CSV and click generate to extract actionable insights.</p>
@@ -28,7 +28,7 @@ export const InsightsPanel: React.FC<InsightsPanelProps> = ({
     <Card className="h-full flex flex-col sticky top-24 max-h-[calc(100vh-8rem)]">
       <div className="mb-4 flex items-center justify-between shrink-0">
         <h2 className="text-xl font-bold text-gray-900">Extracted Insights</h2>
-        <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">
+        <span className="bg-gray-100 text-gray-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">
           {insights.length} Total
         </span>
       </div>

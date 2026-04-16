@@ -3,9 +3,12 @@
 import React, { useState } from 'react';
 import { Card } from '../ui/Card';
 import { Button } from '../ui/Button';
+import { Columns3, Database, Eye, FileSpreadsheet, History, LoaderCircle, Upload, WandSparkles } from 'lucide-react';
 
 interface InputSectionProps {
   onGenerate: (text: string) => void;
+  onUseCached?: () => void;
+  hasCachedData?: boolean;
   loading: boolean;
 }
 
@@ -116,7 +119,7 @@ const saveCsvToServer = async (csvText: string) => {
   }
 };
 
-export const InputSection: React.FC<InputSectionProps> = ({ onGenerate, loading }) => {
+export const InputSection: React.FC<InputSectionProps> = ({ onGenerate, onUseCached, hasCachedData = false, loading }) => {
   const [productUpload, setProductUpload] = useState<CsvUploadState>(createEmptyUploadState());
   const [submitError, setSubmitError] = useState<string | null>(null);
 
@@ -237,25 +240,26 @@ export const InputSection: React.FC<InputSectionProps> = ({ onGenerate, loading 
           </div>
 
           {hasLoadedFile ? (
-            <div className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
+            <div className="rounded-full bg-gray-100 px-3 py-1 text-xs font-semibold text-gray-700">
               {upload.rowCount} rows
             </div>
           ) : null}
         </div>
 
         <label className="mt-4 block text-sm font-medium text-gray-700">
-          Upload CSV
+          <span className="inline-flex items-center gap-1.5"><Upload className="h-4 w-4" />Upload CSV</span>
           <input
             type="file"
             accept=".csv,text/csv"
             onChange={(event) => handleFileUpload(event.target.files?.[0])}
             disabled={loading}
-            className="mt-2 block w-full cursor-pointer rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600 shadow-inner file:mr-4 file:rounded-lg file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:cursor-not-allowed disabled:opacity-60"
+            className="mt-2 block w-full cursor-pointer rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600 shadow-inner file:mr-4 file:rounded-lg file:border-0 file:bg-gray-900 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:cursor-not-allowed disabled:opacity-60"
           />
         </label>
 
         {upload.saving ? (
-          <div className="mt-3 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-700">
+          <div className="mt-3 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700">
+            <LoaderCircle className="mr-2 inline-block h-4 w-4 animate-spin" />
             Saving CSV to uploads folder...
           </div>
         ) : null}
@@ -271,15 +275,15 @@ export const InputSection: React.FC<InputSectionProps> = ({ onGenerate, loading 
             <div className="rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-600">
               <div className="font-semibold text-gray-900">{upload.fileName}</div>
               <div>{upload.rowCount} review rows parsed successfully.</div>
-              {upload.savedToServer ? <div className="text-blue-700">Saved to public/uploads.</div> : null}
+              {upload.savedToServer ? <div className="text-gray-700">Saved to public/uploads.</div> : null}
             </div>
 
             <label className="block text-sm font-medium text-gray-700">
-              Review text column
+              <span className="inline-flex items-center gap-1.5"><Columns3 className="h-4 w-4" />Review text column</span>
               <select
                 value={upload.selectedColumnIndex}
                 onChange={(event) => updateSelectedColumn(Number(event.target.value))}
-                className="mt-2 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-2 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-700 shadow-sm focus:border-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500"
               >
                 {columns.map((columnName, index) => (
                   <option key={`product-${index}`} value={index}>
@@ -290,7 +294,7 @@ export const InputSection: React.FC<InputSectionProps> = ({ onGenerate, loading 
             </label>
 
             <div className="rounded-xl border border-gray-200 bg-white p-4">
-              <div className="mb-3 text-sm font-semibold text-gray-900">Preview of extracted reviews</div>
+              <div className="mb-3 text-sm font-semibold text-gray-900 inline-flex items-center gap-1.5"><Eye className="h-4 w-4" />Preview of extracted reviews</div>
               {reviewPreview.length > 0 ? (
                 <ol className="space-y-2 text-sm text-gray-600">
                   {reviewPreview.map((review, index) => (
@@ -310,17 +314,17 @@ export const InputSection: React.FC<InputSectionProps> = ({ onGenerate, loading 
   };
 
   return (
-    <Card className="mb-8 overflow-hidden relative">
-      <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-blue-100 mix-blend-multiply filter blur-3xl opacity-50 z-0 pointer-events-none"></div>
+    <Card className="mb-8 overflow-hidden relative border border-gray-200 bg-white/80 backdrop-blur-xl shadow-xl">
+      <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-gray-200 mix-blend-multiply filter blur-3xl opacity-50 z-0 pointer-events-none"></div>
       
       <div className="relative z-10 flex flex-col gap-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h2 className="text-xl font-bold text-gray-900">1. Upload Your Product Reviews CSV</h2>
+            <h2 className="text-xl font-bold text-gray-900 inline-flex items-center gap-2"><FileSpreadsheet className="h-5 w-5 text-gray-700" />1. Upload Your Product Reviews CSV</h2>
             <p className="mt-1 text-sm text-gray-500">Client-side CSV parsing, column selection, and a preview of the extracted review text.</p>
           </div>
-          <div className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
-            Quotes and commas supported
+          <div className="rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-xs font-semibold text-gray-700">
+            <span className="inline-flex items-center gap-1"><Database className="h-3.5 w-3.5" />Quotes and commas supported</span>
           </div>
         </div>
 
@@ -332,7 +336,17 @@ export const InputSection: React.FC<InputSectionProps> = ({ onGenerate, loading 
           </div>
         ) : null}
         
-        <div className="flex justify-end">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-2">
+          {onUseCached ? (
+            <Button
+              variant="secondary"
+              onClick={onUseCached}
+              disabled={!hasCachedData || loading}
+            >
+              <span className="inline-flex items-center gap-1.5"><History className="h-4 w-4" />Use Cached JSON (Temp)</span>
+            </Button>
+          ) : null}
+
           <Button 
             onClick={handleGenerate} 
             disabled={!productUpload.rows.length || loading}
@@ -347,7 +361,7 @@ export const InputSection: React.FC<InputSectionProps> = ({ onGenerate, loading 
                 Analyzing CSV reviews...
               </>
             ) : (
-              "Generate Website ✨"
+              <span className="inline-flex items-center gap-1.5"><WandSparkles className="h-4 w-4" />Generate Website</span>
             )}
           </Button>
         </div>

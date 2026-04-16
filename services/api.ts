@@ -15,3 +15,18 @@ export const generateWebsiteData = async (reviewsText: string): Promise<Generate
 
   return res.json();
 };
+
+export const persistGeneratedResponse = async (payload: GenerateResponse): Promise<void> => {
+  const res = await fetch('/api/save-response', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    const errorBody = await res.json().catch(() => null);
+    throw new Error(errorBody?.error || 'Failed to persist generated response.');
+  }
+};
