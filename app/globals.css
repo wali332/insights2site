@@ -13,6 +13,9 @@
   
   --animate-fade-in: fade-in 1s ease-out forwards;
   --animate-fade-in-up: fade-in-up 1s ease-out forwards;
+  --animate-float: float 5s ease-in-out infinite;
+  --animate-pulse-line: pulse-line 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-glow-highlight: glow-highlight 3s ease-in-out infinite;
 
   @keyframes fade-in {
     from { opacity: 0; }
@@ -22,6 +25,21 @@
   @keyframes fade-in-up {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  @keyframes pulse-line {
+    0%, 100% { opacity: 0.3; border-color: #d1d5db; }
+    50% { opacity: 1; border-color: #111827; box-shadow: 0 0 10px rgba(17,24,39,0.2); }
+  }
+
+  @keyframes glow-highlight {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(17, 24, 39, 0); border-color: #e5e7eb; }
+    50% { box-shadow: 0 0 15px 1px rgba(17, 24, 39, 0.15); border-color: #4b5563; }
   }
 }
 
