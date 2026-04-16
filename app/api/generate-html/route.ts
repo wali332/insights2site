@@ -86,6 +86,7 @@ const buildPrompt = (payload: GenerateHtmlRequest): string => {
     '- Accessible contrast and readable typography.',
     '- Keep content grounded in provided insights and website copy.',
     `- Footer copyright MUST include the current year (${currentYear}).`,
+    '- If company name is provided, use it consistently in nav/branding, hero context, and metadata title.',
     '',
     'CUSTOMIZATION HINTS:',
     `- Preferred style: ${preferences.style || 'Modern SaaS'}`,
@@ -94,6 +95,7 @@ const buildPrompt = (payload: GenerateHtmlRequest): string => {
     `- Preferred color palette: ${preferences.colorPalette?.name || 'Not specified'}`,
     `- Preferred colors: ${(preferences.colorPalette?.colors || []).join(', ') || 'Not specified'}`,
     `- Palette note: ${preferences.colorPalette?.description || 'Not specified'}`,
+    `- Company name: ${preferences.companyName || payload.response.website.companyName || 'Not specified'}`,
   ].join('\n');
 };
 

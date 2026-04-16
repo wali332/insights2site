@@ -46,6 +46,7 @@ const getBenefits = (website: Website): string[] => {
 
 const buildDraftFromEditor = (
   source: GenerateResponse,
+  companyName: string,
   headline: string,
   subheadline: string,
   cta: string,
@@ -72,6 +73,7 @@ const buildDraftFromEditor = (
     ...source,
     website: {
       ...source.website,
+      companyName,
       hero: {
         ...(source.website.hero || { headline: '', subheadline: '' }),
         headline,
@@ -130,12 +132,12 @@ function GenerationReasonSource({ reasons }: { reasons?: string[] }) {
   return (
     <div className="mt-3">
       <p className="text-[10px] uppercase tracking-wide text-gray-400 mb-1.5 flex items-center gap-1">
-        <Sparkles className="h-3 w-3 text-indigo-300" /> Why Gemini generated this
+        <Sparkles className="h-3 w-3 text-violet-400" /> Why Gemini generated this
       </p>
       <ul className="space-y-1.5 rounded-lg border border-gray-200/70 bg-gray-50 px-3 py-2.5">
         {normalizedReasons.map((reason, i) => (
           <li key={`${reason}-${i}`} className="text-xs text-gray-600 leading-relaxed flex items-start gap-1.5">
-            <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-indigo-300" />
+            <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-violet-400" />
             <span>{reason}</span>
           </li>
         ))}
@@ -156,7 +158,7 @@ const OptionCard = ({ label, selected, onClick }: OptionCardProps) => (
     onClick={onClick}
     className={`px-3.5 py-2 rounded-xl text-sm font-medium transition-all shadow-sm ${
       selected 
-        ? 'bg-indigo-50 border-indigo-200 text-indigo-700 border-2' 
+        ? 'bg-amber-50 border-amber-200 text-amber-800 border-2' 
         : 'bg-white border-gray-200 text-gray-600 border hover:bg-gray-50 border-2 border-transparent hover:border-gray-300'
     }`}
   >
@@ -176,7 +178,7 @@ const PaletteCard = ({ palette, selected, onClick }: PaletteCardProps) => (
     onClick={onClick}
     className={`w-full rounded-xl p-3 text-left border-2 transition-all shadow-sm ${
       selected
-        ? 'bg-indigo-50 border-indigo-200 ring-2 ring-indigo-100'
+        ? 'bg-cyan-50 border-cyan-200 ring-2 ring-cyan-100'
         : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50'
     }`}
   >
@@ -197,6 +199,7 @@ const PaletteCard = ({ palette, selected, onClick }: PaletteCardProps) => (
 
 const buildCurrentDraftFromState = ({
   source,
+  companyName,
   headline,
   subheadline,
   cta,
@@ -210,6 +213,7 @@ const buildCurrentDraftFromState = ({
   selectedPaletteName,
 }: {
   source: GenerateResponse;
+  companyName: string;
   headline: string;
   subheadline: string;
   cta: string;
@@ -224,6 +228,7 @@ const buildCurrentDraftFromState = ({
 }): GenerateResponse => {
   const next = buildDraftFromEditor(
     source,
+    companyName,
     headline,
     subheadline,
     cta,
@@ -258,6 +263,7 @@ export default function DashboardPage() {
   const [headline, setHeadline] = useState('');
   const [subheadline, setSubheadline] = useState('');
   const [cta, setCta] = useState('');
+  const [companyName, setCompanyName] = useState('');
   const [benefitsText, setBenefitsText] = useState('');
   const [testimonialsText, setTestimonialsText] = useState('');
   const [whyChooseUsText, setWhyChooseUsText] = useState('');
@@ -286,6 +292,7 @@ export default function DashboardPage() {
     setHeadline(website.hero?.headline || website.headline || '');
     setSubheadline(website.hero?.subheadline || website.subheadline || '');
     setCta(website.cta || 'Get Started');
+    setCompanyName(website.companyName || '');
     setBenefitsText(benefits.join('\n'));
     setTestimonialsText((website.testimonials || []).join('\n'));
     setWhyChooseUsText((website.why_choose_us || []).join('\n'));
@@ -372,6 +379,7 @@ export default function DashboardPage() {
     try {
       const draft = buildCurrentDraftFromState({
         source: cachedResponse,
+        companyName,
         headline,
         subheadline,
         cta,
@@ -410,6 +418,7 @@ export default function DashboardPage() {
 
     const draft = buildCurrentDraftFromState({
       source: cachedResponse,
+      companyName,
       headline,
       subheadline,
       cta,
@@ -432,6 +441,7 @@ export default function DashboardPage() {
         tone,
         audience,
         colorPalette: selectedPalette,
+        companyName,
       },
     });
 
@@ -484,8 +494,7 @@ export default function DashboardPage() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[#fafafa] text-gray-900">
-      <div className="absolute top-0 right-0 -translate-y-10 translate-x-1/3 w-[720px] h-[520px] bg-blue-50 rounded-full blur-[120px] opacity-60 pointer-events-none" />
-      <div className="absolute top-72 left-0 -translate-x-1/3 w-[560px] h-[560px] bg-indigo-50/50 rounded-full blur-[120px] opacity-50 pointer-events-none" />
+      <div className="absolute top-72 left-0 -translate-x-1/3 w-[560px] h-[560px] bg-cyan-100/50 rounded-full blur-[120px] opacity-50 pointer-events-none" />
 
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 pb-12 pt-20 sm:px-6 lg:px-8">
         <Navbar />
@@ -504,7 +513,7 @@ export default function DashboardPage() {
             
             <div className="mb-2">
               <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2.5">
-                <BrainCircuit className="h-5 w-5 text-indigo-600" />
+                <BrainCircuit className="h-5 w-5 text-cyan-700" />
                 Insights Summary
               </h2>
               <p className="text-sm text-gray-500 mt-1.5">
@@ -551,7 +560,7 @@ export default function DashboardPage() {
             <Card className="bg-white border border-gray-100 shadow-sm rounded-2xl p-6 hover:shadow-md transition duration-300 mt-2">
               <div className="mb-6">
                 <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2.5">
-                  <LayoutTemplate className="h-5 w-5 text-indigo-600" />
+                  <LayoutTemplate className="h-5 w-5 text-amber-700" />
                   Customize Website
                 </h2>
                 <p className="text-sm text-gray-500 mt-1.5">
@@ -609,7 +618,7 @@ export default function DashboardPage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sticky top-24 z-20 bg-[#fafafa]/80 backdrop-blur-md py-4 -mt-4 border-b border-transparent">
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2.5">
-                  <Layers className="h-6 w-6 text-indigo-600" />
+                  <Layers className="h-6 w-6 text-violet-700" />
                   Content Editor
                 </h2>
                 <p className="text-sm text-gray-500 mt-1">
@@ -623,9 +632,9 @@ export default function DashboardPage() {
                     {saving ? 'Saving...' : 'Save Draft'}
                   </span>
                 </Button>
-                <Button onClick={handleGenerateSite} disabled={saving || generatingHtml} className="rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-lg transition">
+                <Button onClick={handleGenerateSite} disabled={saving || generatingHtml} className="rounded-xl bg-gray-900 hover:bg-gray-800 text-white shadow-md hover:shadow-lg transition">
                   <span className="inline-flex items-center gap-1.5">
-                    <WandSparkles className="h-4 w-4 text-indigo-100" />
+                    <WandSparkles className="h-4 w-4 text-gray-200" />
                     {generatingHtml ? 'Generating Site...' : 'Generate and Open Site'}
                   </span>
                 </Button>
@@ -634,27 +643,39 @@ export default function DashboardPage() {
 
             <div className="space-y-6">
               {generatingHtml ? (
-                <div className="rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm text-indigo-800 flex items-center gap-2 font-medium shadow-sm">
+                <div className="rounded-xl border border-cyan-200 bg-cyan-50 px-4 py-3 text-sm text-cyan-900 flex items-center gap-2 font-medium shadow-sm">
                   <LoaderCircle className="h-4 w-4 animate-spin" />
                   Generating with Gemini... building and opening your final site from the finalized insights.
                 </div>
               ) : null}
 
-              {/* MESSAGING CARD */}
+              {/* BRAND DETAILS & COPY CARD */}
               <Card className="bg-white border border-gray-100 shadow-sm rounded-2xl p-6 hover:shadow-md transition duration-300">
                 <h3 className="text-lg font-bold text-gray-900 mb-6 inline-flex items-center gap-2.5">
-                  <MessageSquare className="h-5 w-5 text-indigo-500" />
-                  Messaging
+                  <MessageSquare className="h-5 w-5 text-violet-600" />
+                  Brand Details
                 </h3>
                 
                 <div className="space-y-6">
+                  <div>
+                    <label className="flex flex-col text-sm font-medium text-gray-700">
+                      <span className="mb-2">Company Name</span>
+                      <input
+                        value={companyName}
+                        onChange={(event) => setCompanyName(event.target.value)}
+                        placeholder="Acme Co"
+                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-cyan-500/15 transition-all font-semibold"
+                      />
+                    </label>
+                  </div>
+
                   <div>
                     <label className="flex flex-col text-sm font-medium text-gray-700">
                       <span className="mb-2">Headline</span>
                       <input
                         value={headline}
                         onChange={(event) => setHeadline(event.target.value)}
-                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all font-semibold"
+                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-cyan-500/15 transition-all font-semibold"
                       />
                     </label>
                     <GenerationReasonSource reasons={generationReasons.headline} />
@@ -667,7 +688,7 @@ export default function DashboardPage() {
                         value={subheadline}
                         onChange={(event) => setSubheadline(event.target.value)}
                         rows={2}
-                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all resize-none"
+                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-cyan-500/15 transition-all resize-none"
                       />
                     </label>
                     <GenerationReasonSource reasons={generationReasons.subheadline} />
@@ -679,7 +700,7 @@ export default function DashboardPage() {
                       <input
                         value={cta}
                         onChange={(event) => setCta(event.target.value)}
-                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all"
+                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-cyan-500/15 transition-all"
                       />
                     </label>
                     <GenerationReasonSource reasons={generationReasons.cta} />
@@ -690,7 +711,7 @@ export default function DashboardPage() {
               {/* VALUE PROPS CARD */}
               <Card className="bg-white border border-gray-100 shadow-sm rounded-2xl p-6 hover:shadow-md transition duration-300">
                 <h3 className="text-lg font-bold text-gray-900 mb-6 inline-flex items-center gap-2.5">
-                  <Target className="h-5 w-5 text-indigo-500" />
+                  <Target className="h-5 w-5 text-amber-600" />
                   Value Proposition
                 </h3>
                 
@@ -702,7 +723,7 @@ export default function DashboardPage() {
                         value={benefitsText}
                         onChange={(event) => setBenefitsText(event.target.value)}
                         rows={6}
-                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all leading-relaxed"
+                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-cyan-500/15 transition-all leading-relaxed"
                       />
                     </label>
                     <GenerationReasonSource reasons={generationReasons.benefits} />
@@ -715,7 +736,7 @@ export default function DashboardPage() {
                         value={whyChooseUsText}
                         onChange={(event) => setWhyChooseUsText(event.target.value)}
                         rows={6}
-                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all leading-relaxed"
+                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-cyan-500/15 transition-all leading-relaxed"
                       />
                     </label>
                     <GenerationReasonSource reasons={generationReasons.whyChooseUs} />
@@ -726,7 +747,7 @@ export default function DashboardPage() {
               {/* SOCIAL PROOF CARD */}
               <Card className="bg-white border border-gray-100 shadow-sm rounded-2xl p-6 hover:shadow-md transition duration-300">
                 <h3 className="text-lg font-bold text-gray-900 mb-6 inline-flex items-center gap-2.5">
-                  <Users className="h-5 w-5 text-indigo-500" />
+                  <Users className="h-5 w-5 text-emerald-600" />
                   Social Proof
                 </h3>
                 
@@ -738,7 +759,7 @@ export default function DashboardPage() {
                         value={testimonialsText}
                         onChange={(event) => setTestimonialsText(event.target.value)}
                         rows={5}
-                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all leading-relaxed"
+                        className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-slate-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-cyan-500/15 transition-all leading-relaxed"
                       />
                     </label>
                     <GenerationReasonSource reasons={generationReasons.testimonials} />
@@ -748,7 +769,7 @@ export default function DashboardPage() {
             </div>
 
             {saveMessage ? (
-              <div className="mt-8 rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm text-indigo-800 flex items-center justify-center font-medium shadow-sm animate-in fade-in slide-in-from-bottom-2">
+              <div className="mt-8 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900 flex items-center justify-center font-medium shadow-sm animate-in fade-in slide-in-from-bottom-2">
                 {saveMessage}
               </div>
             ) : null}

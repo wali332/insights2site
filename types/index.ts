@@ -27,6 +27,7 @@ export interface Website {
   testimonials: string[];
   cta: string;
   why_choose_us?: string[];
+  companyName?: string;
 }
 
 export interface ColorPaletteOption {
@@ -66,6 +67,7 @@ export interface HtmlGenerationPreferences {
   tone?: string;
   audience?: string;
   colorPalette?: ColorPaletteOption;
+  companyName?: string;
 }
 
 export interface GenerateHtmlRequest {

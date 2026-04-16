@@ -3,37 +3,37 @@
     {
       "id": "i1",
       "type": "pain",
-      "text": "Inconsistent staff behavior and management responsiveness",
+      "text": "Inconsistent parking management and high fees for poor spots",
       "usedIn": "benefits"
     },
     {
       "id": "i2",
       "type": "pain",
-      "text": "Occasional parking mismanagement and high fees for poor spots",
+      "text": "Occasional reports of rude staff or poor restaurant management",
       "usedIn": "benefits"
     },
     {
       "id": "i3",
       "type": "pain",
-      "text": "Limited lift availability during peak hours",
+      "text": "Difficulty navigating the parking lot for some visitors",
       "usedIn": "benefits"
     },
     {
       "id": "i4",
       "type": "desire",
-      "text": "Indoor thrill rides and amusement park",
+      "text": "Unique indoor thrill rides and amusement park",
       "usedIn": "hero"
     },
     {
       "id": "i5",
       "type": "desire",
-      "text": "Excellent metro connectivity (opposite Konanakunte Cross)",
+      "text": "Strategic location opposite Konanakunte Cross Metro Station",
       "usedIn": "hero"
     },
     {
       "id": "i6",
       "type": "desire",
-      "text": "Unique architecture with terrace-like cafes and stunning stairs",
+      "text": "Modern architecture with terrace-like cafes and stunning interiors",
       "usedIn": "hero"
     },
     {
@@ -45,104 +45,101 @@
     {
       "id": "i8",
       "type": "keyword",
-      "text": "South Bengaluru",
+      "text": "Metro Connectivity",
       "usedIn": "cta"
     }
   ],
   "website": {
     "hero": {
-      "headline": "Your Ultimate Weekend Destination in South Bengaluru",
-      "subheadline": "Experience a unique blend of indoor thrill rides, premium global brands, and world-class dining—all just steps away from the Metro.",
-      "source": "desire: Indoor thrill rides and amusement park"
+      "headline": "The Ultimate Weekend Destination in South Bengaluru",
+      "subheadline": "Experience a unique blend of premium shopping, diverse dining, and first-of-its-kind indoor thrill rides right opposite the metro.",
+      "source": "desire: Unique indoor thrill rides and amusement park"
     },
     "benefits": {
       "items": [
-        "Exclusive Indoor Amusement Park",
-        "Curated Global & National Retailers",
-        "Terrace-Style Cafes & Diverse Food Court",
-        "State-of-the-Art PVR INOX Multiplex",
-        "Seamless Metro & Public Transport Access"
+        "Indoor Amusement Park & Thrill Rides",
+        "Premium PVR INOX Cinema Experience",
+        "Global & National Retail Brands",
+        "Diverse Multi-Cuisine Food Court",
+        "Direct Metro Station Connectivity"
       ],
-      "source": "pain: Inconsistent staff behavior and management responsiveness"
+      "source": "pain: Inconsistent parking management and high fees for poor spots"
     },
-    "headline": "Your Ultimate Weekend Destination in South Bengaluru",
-    "subheadline": "Experience a unique blend of indoor thrill rides, premium global brands, and world-class dining—all just steps away from the Metro.",
+    "headline": "The Ultimate Weekend Destination in South Bengaluru",
+    "subheadline": "Experience a unique blend of premium shopping, diverse dining, and first-of-its-kind indoor thrill rides right opposite the metro.",
     "benefitsList": [
-      "Exclusive Indoor Amusement Park",
-      "Curated Global & National Retailers",
-      "Terrace-Style Cafes & Diverse Food Court",
-      "State-of-the-Art PVR INOX Multiplex",
-      "Seamless Metro & Public Transport Access"
+      "Indoor Amusement Park & Thrill Rides",
+      "Premium PVR INOX Cinema Experience",
+      "Global & National Retail Brands",
+      "Diverse Multi-Cuisine Food Court",
+      "Direct Metro Station Connectivity"
     ],
     "testimonials": [
       "What sets this mall apart is its indoor thrill rides and amusement park, something I’ve never seen in any other mall.",
-      "Conveniently located opposite the Metro, it’s a spacious, modern destination with a relaxed atmosphere, perfect for families.",
-      "The architecture is stunning, with terrace-like structures hosting cafes where you can enjoy a view of the entire mall."
+      "Conveniently located opposite the Metro, it’s a spacious, modern destination with a relaxed atmosphere perfect for families.",
+      "The staff were a lifesaver! When I lost my car in the park, the security and parking supervisors went all out to help me."
     ],
-    "cta": "Plan Your Perfect Outing",
+    "cta": "Plan Your Perfect Weekend Visit",
     "why_choose_us": [
-      "Unmatched entertainment with unique indoor rides",
-      "Stress-free access via Konanakunte Cross Metro",
-      "A safe, clean, and family-first environment",
-      "One-stop destination for shopping, dining, and movies"
+      "Unmatched entertainment with indoor rides for all ages",
+      "Stress-free access via public transport and metro",
+      "Impeccable cleanliness and 100% safe environment",
+      "A complete lifestyle hub from groceries to fine dining"
     ]
   },
   "tone": "modern",
   "recommendations": {
-    "preferredStyle": "Modern SaaS",
+    "preferredStyle": "Minimal Clean",
     "preferredTone": "Friendly",
     "preferredAudience": "Local Business",
     "colorPalettes": [
       {
-        "name": "Urban Vibrant",
+        "name": "Urban Sophistication",
         "colors": [
+          "#111827",
           "#4F46E5",
+          "#F9FAFB"
+        ],
+        "description": "A professional and modern palette reflecting the mall's premium architecture."
+      },
+      {
+        "name": "Vibrant Leisure",
+        "colors": [
+          "#0F172A",
           "#06B6D4",
-          "#F9FAFB",
-          "#111827"
+          "#F8FAFC"
         ],
-        "description": "Reflects the modern architecture and lively atmosphere of the mall."
+        "description": "Energetic tones inspired by the indoor amusement park and lively food court."
       },
       {
-        "name": "Sophisticated Retail",
+        "name": "Warm Welcome",
         "colors": [
-          "#1E293B",
-          "#94A3B8",
-          "#F1F5F9",
-          "#0F172A"
-        ],
-        "description": "A premium palette mirroring the high-end international brands."
-      },
-      {
-        "name": "Family Fun",
-        "colors": [
+          "#1F2937",
           "#F59E0B",
-          "#EF4444",
-          "#FFF7ED",
-          "#451A03"
+          "#FFF7ED"
         ],
-        "description": "Warm and inviting tones inspired by the amusement park and cafes."
+        "description": "Inviting and cozy colors that mirror the family-friendly atmosphere and cafes."
       }
     ],
-    "preferredColorPalette": "Urban Vibrant",
+    "preferredColorPalette": "Urban Sophistication",
     "generationReasons": {
       "headline": [
-        "Chosen because multiple reviews (9, 12, 14) explicitly label the mall as a 'must-visit' or 'great place' for weekend outings in South Bengaluru."
+        "Chosen to reflect the recurring sentiment that the mall is a 'complete weekend outing' and the 'best destination in South Bengaluru'."
       ],
       "subheadline": [
-        "Combines the unique selling point of thrill rides (Review 2) with the convenience of the Metro location (Review 3)."
+        "Combines the 'unique touch' of architecture mentioned in reviews with the practical 'metro connectivity' and 'brand variety' strengths."
       ],
       "cta": [
-        "Focuses on the 'outing' aspect which was a recurring theme in family-oriented reviews (Review 1, 13, 53)."
+        "Directly addresses the 'highly recommended' status for weekend visits mentioned by multiple reviewers."
       ],
       "benefits": [
-        "Directly addresses the strengths mentioned: unique entertainment (Review 2), brand variety (Review 6), and accessibility (Review 3)."
+        "Derived from specific praise for the 'indoor thrill rides', 'PVR sound system', and 'cleanliness' mentioned in the text."
       ],
       "testimonials": [
-        "Selected direct quotes that highlight the most unique features: the amusement park, the metro convenience, and the architectural layout."
+        "Selected to highlight the unique selling point (rides), the convenience (metro), and the high level of service (security help)."
       ],
       "whyChooseUs": [
-        "Grounded in evidence regarding safety (Review 15), unique cafe layouts (Review 1), and the 'all-under-one-roof' convenience (Review 6)."
+        "Grounded in the 'safe 100%' comment, the 'unique touch' of the building, and the 'all-around fantastic' variety of services."
       ]
     }
   }
