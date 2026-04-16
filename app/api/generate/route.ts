@@ -32,6 +32,7 @@ type GeminiStructuredOutput = {
   testimonials?: unknown;
   cta?: unknown;
   why_choose_us?: unknown;
+  company_name?: unknown;
   tone?: unknown;
   preferred_style?: unknown;
   preferred_tone?: unknown;
@@ -212,6 +213,7 @@ const buildPrompt = (formattedReviews: string): string => {
     '- Analyze reviews deeply.',
     '- Extract strengths, pain_points, customer_types, keywords.',
     '- Generate headline, subheadline, features (3-5), testimonials (2-3), cta, why_choose_us.',
+    '- Suggest a company name (2-3 words) based on the product/service insights.',
     '- Pick dashboard defaults for style, tone, and audience using ONLY allowed values.',
     '- Generate exactly 3 distinct color palettes (each with 3-5 hex colors).',
     '- For each generated section, provide concise reasons grounded in review evidence explaining why that copy was chosen.',
@@ -228,6 +230,7 @@ const buildPrompt = (formattedReviews: string): string => {
     '  "testimonials": ["..."],',
     '  "cta": "...",',
     '  "why_choose_us": ["..."],',
+    '  "company_name": "...",',
     '  "tone": "modern",',
     '  "preferred_style": "Modern SaaS | Bold Marketing | Minimal Clean",',
     '  "preferred_tone": "Professional | Friendly | Playful",',
@@ -356,6 +359,7 @@ const normalizeGeminiOutput = (output: GeminiStructuredOutput): GenerateResponse
     : colorPalettes[0].name;
 
   const insights = buildInsights(painPoints, strengths, keywords);
+  const companyName = sanitizeText(output.company_name, '');
 
   return {
     insights,
@@ -376,6 +380,7 @@ const normalizeGeminiOutput = (output: GeminiStructuredOutput): GenerateResponse
       testimonials: safeTestimonials,
       cta,
       why_choose_us: whyChooseUsArray,
+      ...(companyName && { companyName }),
     },
     tone,
     recommendations: {

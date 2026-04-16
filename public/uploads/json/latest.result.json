@@ -3,143 +3,144 @@
     {
       "id": "i1",
       "type": "pain",
-      "text": "Inconsistent parking management and high fees for poor spots",
+      "text": "Occasional slow service during peak or new opening periods",
       "usedIn": "benefits"
     },
     {
       "id": "i2",
       "type": "pain",
-      "text": "Occasional reports of rude staff or poor restaurant management",
+      "text": "Potential wait times during weekends",
       "usedIn": "benefits"
     },
     {
       "id": "i3",
       "type": "pain",
-      "text": "Difficulty navigating the parking lot for some visitors",
+      "text": "Inconsistent experience with specific niche dishes like Kunafa for some palates",
       "usedIn": "benefits"
     },
     {
       "id": "i4",
       "type": "desire",
-      "text": "Unique indoor thrill rides and amusement park",
+      "text": "Exceptional ambience described as cozy, calm, and refreshing",
       "usedIn": "hero"
     },
     {
       "id": "i5",
       "type": "desire",
-      "text": "Strategic location opposite Konanakunte Cross Metro Station",
+      "text": "High-quality continental cuisine including signature Kunafa and Pasta",
       "usedIn": "hero"
     },
     {
       "id": "i6",
       "type": "desire",
-      "text": "Modern architecture with terrace-like cafes and stunning interiors",
+      "text": "Dedicated co-working amenities like free Wi-Fi and meeting rooms",
       "usedIn": "hero"
     },
     {
       "id": "i7",
       "type": "keyword",
-      "text": "Indoor Thrill Rides",
+      "text": "Kunafa",
       "usedIn": "cta"
     },
     {
       "id": "i8",
       "type": "keyword",
-      "text": "Metro Connectivity",
+      "text": "Co-working",
       "usedIn": "cta"
     }
   ],
   "website": {
     "hero": {
-      "headline": "The Ultimate Weekend Destination in South Bengaluru",
-      "subheadline": "Experience a unique blend of premium shopping, diverse dining, and first-of-its-kind indoor thrill rides right opposite the metro.",
-      "source": "desire: Unique indoor thrill rides and amusement park"
+      "headline": "Work, Dine, and Connect in BTM’s Favorite Hidden Gem",
+      "subheadline": "Experience the perfect blend of artisanal continental cuisine, premium barista coffee, and a serene co-working environment designed for productivity and play.",
+      "source": "desire: Exceptional ambience described as cozy, calm, and refreshing"
     },
     "benefits": {
       "items": [
-        "Indoor Amusement Park & Thrill Rides",
-        "Premium PVR INOX Cinema Experience",
-        "Global & National Retail Brands",
-        "Diverse Multi-Cuisine Food Court",
-        "Direct Metro Station Connectivity"
+        "Productive Co-working Hub: High-speed free Wi-Fi and dedicated meeting rooms for seamless WFH sessions.",
+        "Signature Continental Menu: From authentic Turkish Kunafa to creamy Pesto Pasta and gourmet burgers.",
+        "Community Networking: Regular mixers and get-togethers designed to help freelancers and entrepreneurs connect.",
+        "Interactive Entertainment: A variety of board games and Rubik's cubes to enjoy while your fresh meal is prepared."
       ],
-      "source": "pain: Inconsistent parking management and high fees for poor spots"
+      "source": "pain: Occasional slow service during peak or new opening periods"
     },
-    "headline": "The Ultimate Weekend Destination in South Bengaluru",
-    "subheadline": "Experience a unique blend of premium shopping, diverse dining, and first-of-its-kind indoor thrill rides right opposite the metro.",
+    "headline": "Work, Dine, and Connect in BTM’s Favorite Hidden Gem",
+    "subheadline": "Experience the perfect blend of artisanal continental cuisine, premium barista coffee, and a serene co-working environment designed for productivity and play.",
     "benefitsList": [
-      "Indoor Amusement Park & Thrill Rides",
-      "Premium PVR INOX Cinema Experience",
-      "Global & National Retail Brands",
-      "Diverse Multi-Cuisine Food Court",
-      "Direct Metro Station Connectivity"
+      "Productive Co-working Hub: High-speed free Wi-Fi and dedicated meeting rooms for seamless WFH sessions.",
+      "Signature Continental Menu: From authentic Turkish Kunafa to creamy Pesto Pasta and gourmet burgers.",
+      "Community Networking: Regular mixers and get-togethers designed to help freelancers and entrepreneurs connect.",
+      "Interactive Entertainment: A variety of board games and Rubik's cubes to enjoy while your fresh meal is prepared."
     ],
     "testimonials": [
-      "What sets this mall apart is its indoor thrill rides and amusement park, something I’ve never seen in any other mall.",
-      "Conveniently located opposite the Metro, it’s a spacious, modern destination with a relaxed atmosphere perfect for families.",
-      "The staff were a lifesaver! When I lost my car in the park, the security and parking supervisors went all out to help me."
+      "A hidden gem for WFH folks. Cozy working space, great coffee, and the signature Kunafa is a must-try!",
+      "The networking mixers have been beneficial for my freelance business. Best place for meetings in BTM.",
+      "Amazing food and service. The environment is so calm and cool, perfect for getting work done or hanging out."
     ],
-    "cta": "Plan Your Perfect Weekend Visit",
+    "cta": "Visit Us or Book a Meeting Space",
     "why_choose_us": [
-      "Unmatched entertainment with indoor rides for all ages",
-      "Stress-free access via public transport and metro",
-      "Impeccable cleanliness and 100% safe environment",
-      "A complete lifestyle hub from groceries to fine dining"
-    ]
+      "Unmatched Ambience: A calm, refreshing escape from the busy streets of BTM.",
+      "Affordable Luxury: High-class continental food at prices that offer great value for money.",
+      "Friendly Hospitality: A team that prioritizes care and respect, making every visit feel personal."
+    ],
+    "companyName": "Selenophile Social Cafe"
   },
   "tone": "modern",
   "recommendations": {
     "preferredStyle": "Minimal Clean",
     "preferredTone": "Friendly",
-    "preferredAudience": "Local Business",
+    "preferredAudience": "Startups",
     "colorPalettes": [
       {
-        "name": "Urban Sophistication",
+        "name": "Midnight Espresso",
         "colors": [
-          "#111827",
-          "#4F46E5",
-          "#F9FAFB"
-        ],
-        "description": "A professional and modern palette reflecting the mall's premium architecture."
-      },
-      {
-        "name": "Vibrant Leisure",
-        "colors": [
-          "#0F172A",
-          "#06B6D4",
+          "#1E293B",
+          "#334155",
+          "#0EA5E9",
           "#F8FAFC"
         ],
-        "description": "Energetic tones inspired by the indoor amusement park and lively food court."
+        "description": "A sophisticated palette reflecting the cafe's premium coffee and professional co-working vibe."
       },
       {
-        "name": "Warm Welcome",
+        "name": "Warm Kunafa",
         "colors": [
-          "#1F2937",
+          "#451A03",
+          "#92400E",
           "#F59E0B",
-          "#FFF7ED"
+          "#FFFBEB"
         ],
-        "description": "Inviting and cozy colors that mirror the family-friendly atmosphere and cafes."
+        "description": "Earthy, warm tones inspired by the signature Turkish desserts and cozy interior."
+      },
+      {
+        "name": "Serene Workspace",
+        "colors": [
+          "#064E3B",
+          "#059669",
+          "#D1FAE5",
+          "#FFFFFF"
+        ],
+        "description": "Calming greens and neutrals to emphasize the 'calm and cool' environment mentioned by reviewers."
       }
     ],
-    "preferredColorPalette": "Urban Sophistication",
+    "preferredColorPalette": "Midnight Espresso",
     "generationReasons": {
       "headline": [
-        "Chosen to reflect the recurring sentiment that the mall is a 'complete weekend outing' and the 'best destination in South Bengaluru'."
+        "Chosen because multiple reviews highlight the cafe as a 'hidden gem' in BTM and a 'perfect cafe to get work done'."
       ],
       "subheadline": [
-        "Combines the 'unique touch' of architecture mentioned in reviews with the practical 'metro connectivity' and 'brand variety' strengths."
+        "Reflects the 'vast variety of continental' food and the 'cozy and calm working space' mentioned by WFH reviewers."
       ],
       "cta": [
-        "Directly addresses the 'highly recommended' status for weekend visits mentioned by multiple reviewers."
+        "Directly addresses the dual utility of the space as both a restaurant and a professional meeting venue."
       ],
       "benefits": [
-        "Derived from specific praise for the 'indoor thrill rides', 'PVR sound system', and 'cleanliness' mentioned in the text."
+        "Grounded in specific mentions of 'free wifi,' 'meeting room,' 'affordable price,' and 'games' to keep guests engaged."
       ],
       "testimonials": [
-        "Selected to highlight the unique selling point (rides), the convenience (metro), and the high level of service (security help)."
+        "Selected to represent the three core pillars found in reviews: WFH utility, networking benefits, and food quality."
       ],
       "whyChooseUs": [
-        "Grounded in the 'safe 100%' comment, the 'unique touch' of the building, and the 'all-around fantastic' variety of services."
+        "Based on recurring praise for the 'calm and refreshing ambience' and the 'affordable price' for 'high class food'."
       ]
     }
   }

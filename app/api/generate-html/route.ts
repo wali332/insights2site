@@ -50,6 +50,47 @@ const extractHtml = (rawText: string): string => {
   return rawText.trim();
 };
 
+const DEFAULT_FALLBACK_IMAGES = [
+  'https://images.unsplash.com/photo-1519389950559-0d2936ba7f23?w=1200&h=700&fit=crop',
+  'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop',
+  'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop',
+];
+
+const validateImageUrl = async (url: string): Promise<boolean> => {
+  try {
+    const response = await fetch(url, { method: 'HEAD', timeout: 3000 });
+    return response.ok;
+  } catch {
+    return false;
+  }
+};
+
+const sanitizeAndValidateImages = async (html: string): Promise<string> => {
+  const imgRegex = /<img[^>]+src=["']([^"']+)["'][^>]*>/gi;
+  const matches = Array.from(html.matchAll(imgRegex));
+  
+  let validatedHtml = html;
+  let imageIndex = 0;
+
+  for (const match of matches) {
+    const fullTag = match[0];
+    const originalUrl = match[1];
+    
+    // Validate the URL
+    const isValid = await validateImageUrl(originalUrl);
+    
+    if (!isValid) {
+      // Replace with working fallback
+      const fallbackUrl = DEFAULT_FALLBACK_IMAGES[imageIndex % DEFAULT_FALLBACK_IMAGES.length];
+      validatedHtml = validatedHtml.replace(fullTag, fullTag.replace(originalUrl, fallbackUrl));
+    }
+    
+    imageIndex++;
+  }
+
+  return validatedHtml;
+};
+
 const buildPrompt = (payload: GenerateHtmlRequest): string => {
   const preferences = payload.preferences || {};
   const currentYear = new Date().getFullYear();
@@ -76,9 +117,13 @@ const buildPrompt = (payload: GenerateHtmlRequest): string => {
     '- Return ONLY HTML code (no explanation)',
     '',
     'IMAGE RULES:',
-    '- Use placeholder images only.',
-    '- Use URLs like https://placehold.co/1200x700?text=Hero+Image and similar.',
-    '- Every image must include meaningful alt text.',
+    '- Include at least 2 real images in the final page (not placeholders).',
+    '- Use one strong hero image and at least one supporting image in another section.',
+    '- Use real stock image URLs from Unsplash: https://images.unsplash.com/photo-ID?w=WIDTH&h=HEIGHT&fit=crop',
+    '- Generate realistic Unsplash URLs with valid photo IDs (e.g., 1519389950559-0d2936ba7f23, 1552664730-d307ca884978).',
+    '- Examples: https://images.unsplash.com/photo-1519389950559-0d2936ba7f23?w=1200&h=700&fit=crop',
+    '- Choose images relevant to the company/industry (tech, business, lifestyle, etc. as appropriate).',
+    '- Every image must include meaningful alt text that matches the page context and company.',
     '',
     'QUALITY RULES:',
     '- Mobile-first responsive layout.',
@@ -86,7 +131,8 @@ const buildPrompt = (payload: GenerateHtmlRequest): string => {
     '- Accessible contrast and readable typography.',
     '- Keep content grounded in provided insights and website copy.',
     `- Footer copyright MUST include the current year (${currentYear}).`,
-    '- If company name is provided, use it consistently in nav/branding, hero context, and metadata title.',
+    '- If company name is provided, use it consistently in nav/branding, hero context, metadata title, and image captions where relevant.',
+    '- Images should support the company/topic rather than feeling generic or decorative.',
     '',
     'CUSTOMIZATION HINTS:',
     `- Preferred style: ${preferences.style || 'Modern SaaS'}`,
@@ -186,13 +232,16 @@ export const POST = async (request: Request) => {
     const prompt = buildPrompt(body);
     const html = await callGeminiForHtml(prompt);
 
+    // Validate and fix broken image URLs
+    const validatedHtml = await sanitizeAndValidateImages(html);
+
     try {
-      await persistHtmlArtifact(html);
+      await persistHtmlArtifact(validatedHtml);
     } catch (persistError) {
       console.error('Failed to persist generated HTML artifact', persistError);
     }
 
-    return NextResponse.json({ html });
+    return NextResponse.json({ html: validatedHtml });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown server error.';
     console.error('Generate HTML error', error);
