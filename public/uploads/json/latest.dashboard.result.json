@@ -3,86 +3,147 @@
     {
       "id": "i1",
       "type": "pain",
-      "text": "Significant service delays and slow order fulfillment compared to other branches",
+      "text": "Inconsistent staff behavior and management responsiveness",
       "usedIn": "benefits"
     },
     {
       "id": "i2",
       "type": "pain",
-      "text": "Limited parking availability and challenges with valet management",
+      "text": "Occasional parking mismanagement and high fees for poor spots",
       "usedIn": "benefits"
     },
     {
       "id": "i3",
       "type": "pain",
-      "text": "Crowded environment with long waiting times during weekends",
+      "text": "Limited lift availability during peak hours",
       "usedIn": "benefits"
     },
     {
       "id": "i4",
       "type": "desire",
-      "text": "Exceptional value for money and pocket-friendly pricing",
+      "text": "Indoor thrill rides and amusement park",
       "usedIn": "hero"
     },
     {
       "id": "i5",
       "type": "desire",
-      "text": "Generous portion sizes across the menu",
+      "text": "Excellent metro connectivity (opposite Konanakunte Cross)",
       "usedIn": "hero"
     },
     {
       "id": "i6",
       "type": "desire",
-      "text": "High-quality, consistent taste in signature dishes like burgers and Alfredo pasta",
+      "text": "Unique architecture with terrace-like cafes and stunning stairs",
       "usedIn": "hero"
     },
     {
       "id": "i7",
       "type": "keyword",
-      "text": "All American Cheese Burger",
+      "text": "Indoor Thrill Rides",
       "usedIn": "cta"
     },
     {
       "id": "i8",
       "type": "keyword",
-      "text": "Italian Pasta Alfredo",
+      "text": "South Bengaluru",
       "usedIn": "cta"
     }
   ],
   "website": {
     "hero": {
-      "headline": "Legendary Flavors, Iconic Vibes, and Prices You’ll Love.",
-      "subheadline": "Join the crowd at JP Nagar’s favorite spot for juicy burgers, creamy pastas, and decadent desserts that never break the bank.",
-      "source": "desire: Exceptional value for money and pocket-friendly pricing"
+      "headline": "Your Ultimate Weekend Destination in South Bengaluru",
+      "subheadline": "Experience a unique blend of indoor thrill rides, premium global brands, and world-class dining—all just steps away from the Metro.",
+      "source": "desire: Indoor thrill rides and amusement park"
     },
     "benefits": {
       "items": [
-        "Signature Gourmet Burgers: From the iconic All American Cheese Burger to fusion Tandoori Chicken options.",
-        "Comforting Italian Classics: Our fan-favorite Italian Pasta Alfredo is crafted for creamy perfection every time.",
-        "Indulgent Sweet Endings: A massive selection of shakes, sundaes, and our legendary Banoffee pie.",
-        "Vibrant Social Space: A clean, lively, and buzzing atmosphere perfect for family meals or friend hangouts."
+        "Exclusive Indoor Amusement Park",
+        "Curated Global & National Retailers",
+        "Terrace-Style Cafes & Diverse Food Court",
+        "State-of-the-Art PVR INOX Multiplex",
+        "Seamless Metro & Public Transport Access"
       ],
-      "source": "pain: Significant service delays and slow order fulfillment compared to other branches"
+      "source": "pain: Inconsistent staff behavior and management responsiveness"
     },
-    "headline": "Legendary Flavors, Iconic Vibes, and Prices You’ll Love.",
-    "subheadline": "Join the crowd at JP Nagar’s favorite spot for juicy burgers, creamy pastas, and decadent desserts that never break the bank.",
+    "headline": "Your Ultimate Weekend Destination in South Bengaluru",
+    "subheadline": "Experience a unique blend of indoor thrill rides, premium global brands, and world-class dining—all just steps away from the Metro.",
     "benefitsList": [
-      "Signature Gourmet Burgers: From the iconic All American Cheese Burger to fusion Tandoori Chicken options.",
-      "Comforting Italian Classics: Our fan-favorite Italian Pasta Alfredo is crafted for creamy perfection every time.",
-      "Indulgent Sweet Endings: A massive selection of shakes, sundaes, and our legendary Banoffee pie.",
-      "Vibrant Social Space: A clean, lively, and buzzing atmosphere perfect for family meals or friend hangouts."
+      "Exclusive Indoor Amusement Park",
+      "Curated Global & National Retailers",
+      "Terrace-Style Cafes & Diverse Food Court",
+      "State-of-the-Art PVR INOX Multiplex",
+      "Seamless Metro & Public Transport Access"
     ],
     "testimonials": [
-      "Truffles has become my absolute favourite spot. The place never disappoints when it comes to good food, great portions, and a casual vibe.",
-      "The All American Cheese Burger is an absolute showstopper—generously sized, incredibly juicy, and loaded with signature cheese burst.",
-      "What I love is that despite the quality and quantity, the pricing remains quite reasonable. It’s a classic crowd-favorite."
+      "What sets this mall apart is its indoor thrill rides and amusement park, something I’ve never seen in any other mall.",
+      "Conveniently located opposite the Metro, it’s a spacious, modern destination with a relaxed atmosphere, perfect for families.",
+      "The architecture is stunning, with terrace-like structures hosting cafes where you can enjoy a view of the entire mall."
     ],
-    "cta": "Visit Us for Your Next Sunday Brunch",
+    "cta": "Plan Your Perfect Outing",
     "why_choose_us": [
-      "Unbeatable value for money with a premium culinary experience.",
-      "A diverse menu that ensures every family member finds a favorite.",
-      "Consistent quality from one of the city's most trusted food legacies."
+      "Unmatched entertainment with unique indoor rides",
+      "Stress-free access via Konanakunte Cross Metro",
+      "A safe, clean, and family-first environment",
+      "One-stop destination for shopping, dining, and movies"
     ]
   },
-  "tone": "modern"
+  "tone": "modern",
+  "recommendations": {
+    "preferredStyle": "Bold Marketing",
+    "preferredTone": "Friendly",
+    "preferredAudience": "Enterprise",
+    "colorPalettes": [
+      {
+        "name": "Urban Vibrant",
+        "colors": [
+          "#4F46E5",
+          "#06B6D4",
+          "#F9FAFB",
+          "#111827"
+        ],
+        "description": "Reflects the modern architecture and lively atmosphere of the mall."
+      },
+      {
+        "name": "Sophisticated Retail",
+        "colors": [
+          "#1E293B",
+          "#94A3B8",
+          "#F1F5F9",
+          "#0F172A"
+        ],
+        "description": "A premium palette mirroring the high-end international brands."
+      },
+      {
+        "name": "Family Fun",
+        "colors": [
+          "#F59E0B",
+          "#EF4444",
+          "#FFF7ED",
+          "#451A03"
+        ],
+        "description": "Warm and inviting tones inspired by the amusement park and cafes."
+      }
+    ],
+    "preferredColorPalette": "Sophisticated Retail",
+    "generationReasons": {
+      "headline": [
+        "Chosen because multiple reviews (9, 12, 14) explicitly label the mall as a 'must-visit' or 'great place' for weekend outings in South Bengaluru."
+      ],
+      "subheadline": [
+        "Combines the unique selling point of thrill rides (Review 2) with the convenience of the Metro location (Review 3)."
+      ],
+      "cta": [
+        "Focuses on the 'outing' aspect which was a recurring theme in family-oriented reviews (Review 1, 13, 53)."
+      ],
+      "benefits": [
+        "Directly addresses the strengths mentioned: unique entertainment (Review 2), brand variety (Review 6), and accessibility (Review 3)."
+      ],
+      "testimonials": [
+        "Selected direct quotes that highlight the most unique features: the amusement park, the metro convenience, and the architectural layout."
+      ],
+      "whyChooseUs": [
+        "Grounded in evidence regarding safety (Review 15), unique cafe layouts (Review 1), and the 'all-under-one-roof' convenience (Review 6)."
+      ]
+    }
+  }
 }

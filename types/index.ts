@@ -29,16 +29,43 @@ export interface Website {
   why_choose_us?: string[];
 }
 
+export interface ColorPaletteOption {
+  name: string;
+  colors: string[];
+  description?: string;
+}
+
+export interface DashboardGenerationReasons {
+  headline?: string[];
+  subheadline?: string[];
+  cta?: string[];
+  benefits?: string[];
+  testimonials?: string[];
+  whyChooseUs?: string[];
+}
+
+export interface DashboardRecommendations {
+  preferredStyle?: string;
+  preferredTone?: string;
+  preferredAudience?: string;
+  colorPalettes?: ColorPaletteOption[];
+  preferredColorPalette?: string;
+  generationReasons?: DashboardGenerationReasons;
+}
+
 export interface GenerateResponse {
   insights: Insight[];
   website: Website;
   tone?: string;
+  recommendations?: DashboardRecommendations;
+  reviews?: string[];
 }
 
 export interface HtmlGenerationPreferences {
   style?: string;
   tone?: string;
   audience?: string;
+  colorPalette?: ColorPaletteOption;
 }
 
 export interface GenerateHtmlRequest {

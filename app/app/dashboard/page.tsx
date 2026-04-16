@@ -6,9 +6,27 @@ import { Navbar } from '../../../components/layout/Navbar';
 import { Breadcrumbs } from '../../../components/layout/Breadcrumbs';
 import { Card } from '../../../components/ui/Card';
 import { Button } from '../../../components/ui/Button';
-import { GenerateResponse, Insight, Website } from '../../../types';
+import { ColorPaletteOption, DashboardGenerationReasons, GenerateResponse, Insight, Website } from '../../../types';
 import { useGenerate } from '../../../hooks/useGenerate';
 import { BrainCircuit, CircleAlert, FileSpreadsheet, Save, WandSparkles, LayoutTemplate, Layers, Sparkles, MessageSquare, Target, Users, AlertTriangle, Heart, LoaderCircle } from 'lucide-react';
+
+const FALLBACK_COLOR_PALETTES: ColorPaletteOption[] = [
+  {
+    name: 'Modern Indigo',
+    description: 'Balanced modern palette for SaaS and product pages.',
+    colors: ['#111827', '#4F46E5', '#EEF2FF'],
+  },
+  {
+    name: 'Fresh Teal',
+    description: 'Friendly and trust-building palette.',
+    colors: ['#0F172A', '#0D9488', '#ECFEFF'],
+  },
+  {
+    name: 'Warm Amber',
+    description: 'Bold and energetic conversion-oriented palette.',
+    colors: ['#1F2937', '#F59E0B', '#FFF7ED'],
+  },
+];
 
 const getBenefits = (website: Website): string[] => {
   if (Array.isArray(website.benefits)) {
@@ -75,21 +93,53 @@ const buildDraftFromEditor = (
   };
 };
 
-function InsightSource({ insights }: { insights: Array<Pick<Insight, 'text'>> }) {
-  if (!insights || insights.length === 0) return null;
+const normalizeReasonLines = (value?: string[]): string[] => {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map((item) => item.trim())
+    .filter((item) => item.length > 0)
+    .slice(0, 3);
+};
+
+const buildFallbackReasonsFromInsights = (insights: Insight[]): DashboardGenerationReasons => {
+  const collectByUsedIn = (usedInValues: string[]): string[] => {
+    return insights
+      .filter((insight) => usedInValues.includes(insight.usedIn))
+      .map((insight) => insight.text)
+      .slice(0, 3);
+  };
+
+  return {
+    headline: collectByUsedIn(['hero']),
+    subheadline: collectByUsedIn(['hero']),
+    cta: collectByUsedIn(['cta']),
+    benefits: collectByUsedIn(['benefits']),
+    testimonials: collectByUsedIn(['testimonials', 'social_proof']),
+    whyChooseUs: collectByUsedIn(['benefits', 'value', 'why_choose_us']),
+  };
+};
+
+function GenerationReasonSource({ reasons }: { reasons?: string[] }) {
+  const normalizedReasons = normalizeReasonLines(reasons);
+
+  if (normalizedReasons.length === 0) return null;
 
   return (
     <div className="mt-3">
       <p className="text-[10px] uppercase tracking-wide text-gray-400 mb-1.5 flex items-center gap-1">
-        <Sparkles className="h-3 w-3 text-indigo-300" /> Generated from customer insights
+        <Sparkles className="h-3 w-3 text-indigo-300" /> Why Gemini generated this
       </p>
-      <div className="flex flex-wrap gap-2">
-        {insights.slice(0, 2).map((insight, i) => (
-          <span key={i} className="inline-flex items-center bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full text-xs font-medium leading-tight shadow-sm border border-gray-200/50 max-w-full">
-            <span className="truncate whitespace-normal line-clamp-2">{insight.text}</span>
-          </span>
+      <ul className="space-y-1.5 rounded-lg border border-gray-200/70 bg-gray-50 px-3 py-2.5">
+        {normalizedReasons.map((reason, i) => (
+          <li key={`${reason}-${i}`} className="text-xs text-gray-600 leading-relaxed flex items-start gap-1.5">
+            <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-indigo-300" />
+            <span>{reason}</span>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }
@@ -114,6 +164,37 @@ const OptionCard = ({ label, selected, onClick }: OptionCardProps) => (
   </button>
 );
 
+interface PaletteCardProps {
+  palette: ColorPaletteOption;
+  selected: boolean;
+  onClick: () => void;
+}
+
+const PaletteCard = ({ palette, selected, onClick }: PaletteCardProps) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={`w-full rounded-xl p-3 text-left border-2 transition-all shadow-sm ${
+      selected
+        ? 'bg-indigo-50 border-indigo-200 ring-2 ring-indigo-100'
+        : 'bg-white border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+    }`}
+  >
+    <div className="text-sm font-semibold text-gray-800">{palette.name}</div>
+    {palette.description ? <p className="mt-1 text-xs text-gray-500 line-clamp-2">{palette.description}</p> : null}
+    <div className="mt-2 flex items-center gap-1.5">
+      {palette.colors.slice(0, 5).map((color) => (
+        <span
+          key={`${palette.name}-${color}`}
+          className="h-5 w-5 rounded-md border border-black/10"
+          style={{ backgroundColor: color }}
+          title={color}
+        />
+      ))}
+    </div>
+  </button>
+);
+
 const buildCurrentDraftFromState = ({
   source,
   headline,
@@ -122,6 +203,11 @@ const buildCurrentDraftFromState = ({
   benefitsText,
   testimonialsText,
   whyChooseUsText,
+  style,
+  tone,
+  audience,
+  colorPalettes,
+  selectedPaletteName,
 }: {
   source: GenerateResponse;
   headline: string;
@@ -130,8 +216,13 @@ const buildCurrentDraftFromState = ({
   benefitsText: string;
   testimonialsText: string;
   whyChooseUsText: string;
+  style: string;
+  tone: string;
+  audience: string;
+  colorPalettes: ColorPaletteOption[];
+  selectedPaletteName: string;
 }): GenerateResponse => {
-  return buildDraftFromEditor(
+  const next = buildDraftFromEditor(
     source,
     headline,
     subheadline,
@@ -140,6 +231,18 @@ const buildCurrentDraftFromState = ({
     testimonialsText,
     whyChooseUsText
   );
+
+  return {
+    ...next,
+    recommendations: {
+      preferredStyle: style,
+      preferredTone: tone,
+      preferredAudience: audience,
+      colorPalettes,
+      preferredColorPalette: selectedPaletteName,
+      generationReasons: source.recommendations?.generationReasons,
+    },
+  };
 };
 
 export default function DashboardPage() {
@@ -163,6 +266,7 @@ export default function DashboardPage() {
   const [style, setStyle] = useState('Modern SaaS');
   const [tone, setTone] = useState('Professional');
   const [audience, setAudience] = useState('Startups');
+  const [selectedPaletteName, setSelectedPaletteName] = useState('Modern Indigo');
 
   const [saving, setSaving] = useState(false);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
@@ -185,6 +289,22 @@ export default function DashboardPage() {
     setBenefitsText(benefits.join('\n'));
     setTestimonialsText((website.testimonials || []).join('\n'));
     setWhyChooseUsText((website.why_choose_us || []).join('\n'));
+
+    const recommendations = cachedResponse.recommendations;
+    if (recommendations?.preferredStyle) {
+      setStyle(recommendations.preferredStyle);
+    }
+    if (recommendations?.preferredTone) {
+      setTone(recommendations.preferredTone);
+    }
+    if (recommendations?.preferredAudience) {
+      setAudience(recommendations.preferredAudience);
+    }
+    if (recommendations?.preferredColorPalette) {
+      setSelectedPaletteName(recommendations.preferredColorPalette);
+    } else if (recommendations?.colorPalettes?.[0]?.name) {
+      setSelectedPaletteName(recommendations.colorPalettes[0].name);
+    }
   }, [cachedResponse]);
 
   const insightGroups = useMemo(() => {
@@ -196,17 +316,50 @@ export default function DashboardPage() {
     };
   }, [cachedResponse]);
 
-  const editorInsights = useMemo(() => {
-    const o: Insight[] = cachedResponse?.insights || [];
+  const generationReasons = useMemo(() => {
+    const modelReasons = cachedResponse?.recommendations?.generationReasons;
+
+    const normalizedFromModel: DashboardGenerationReasons = {
+      headline: normalizeReasonLines(modelReasons?.headline),
+      subheadline: normalizeReasonLines(modelReasons?.subheadline),
+      cta: normalizeReasonLines(modelReasons?.cta),
+      benefits: normalizeReasonLines(modelReasons?.benefits),
+      testimonials: normalizeReasonLines(modelReasons?.testimonials),
+      whyChooseUs: normalizeReasonLines(modelReasons?.whyChooseUs),
+    };
+
+    const hasModelReasons = Object.values(normalizedFromModel).some(
+      (items) => Array.isArray(items) && items.length > 0
+    );
+
+    if (hasModelReasons) {
+      return normalizedFromModel;
+    }
+
+    const fallback = buildFallbackReasonsFromInsights(cachedResponse?.insights || []);
+
     return {
-      headline: o.filter((i) => i.type === 'desire'),
-      subheadline: o.filter((i) => i.type === 'desire'),
-      cta: o.filter((i) => i.type === 'desire'),
-      benefits: o.filter((i) => i.type === 'desire'),
-      testimonials: o.filter((i) => i.type === 'desire' || i.type === 'keyword'),
-      whyChooseUs: o.filter((i) => i.type === 'desire' || i.type === 'keyword'),
+      headline: normalizeReasonLines(fallback.headline),
+      subheadline: normalizeReasonLines(fallback.subheadline),
+      cta: normalizeReasonLines(fallback.cta),
+      benefits: normalizeReasonLines(fallback.benefits),
+      testimonials: normalizeReasonLines(fallback.testimonials),
+      whyChooseUs: normalizeReasonLines(fallback.whyChooseUs),
     };
   }, [cachedResponse]);
+
+  const colorPalettes = useMemo(() => {
+    const palettes = cachedResponse?.recommendations?.colorPalettes;
+    if (Array.isArray(palettes) && palettes.length === 3) {
+      return palettes;
+    }
+
+    return FALLBACK_COLOR_PALETTES;
+  }, [cachedResponse]);
+
+  const selectedPalette = useMemo(() => {
+    return colorPalettes.find((palette) => palette.name === selectedPaletteName) || colorPalettes[0];
+  }, [colorPalettes, selectedPaletteName]);
 
   const handleSaveDraft = async () => {
     if (!cachedResponse) {
@@ -225,6 +378,11 @@ export default function DashboardPage() {
         benefitsText,
         testimonialsText,
         whyChooseUsText,
+        style,
+        tone,
+        audience,
+        colorPalettes,
+        selectedPaletteName,
       });
 
       await saveDraftResponse(draft);
@@ -258,6 +416,11 @@ export default function DashboardPage() {
       benefitsText,
       testimonialsText,
       whyChooseUsText,
+      style,
+      tone,
+      audience,
+      colorPalettes,
+      selectedPaletteName,
     });
 
     await saveDraftResponse(draft);
@@ -268,6 +431,7 @@ export default function DashboardPage() {
         style,
         tone,
         audience,
+        colorPalette: selectedPalette,
       },
     });
 
@@ -281,7 +445,7 @@ export default function DashboardPage() {
     previewTab.document.write(html);
     previewTab.document.close();
 
-    setSaveMessage('Website HTML generated and opened in a new tab.');
+    setSaveMessage('Site generated and opened in a new tab.');
   };
 
   if (!hasCachedResponse || !cachedResponse) {
@@ -391,7 +555,7 @@ export default function DashboardPage() {
                   Customize Website
                 </h2>
                 <p className="text-sm text-gray-500 mt-1.5">
-                  Select brand aesthetics and tone.
+                  Defaults are suggested by Gemini and can be customized before final generation.
                 </p>
               </div>
 
@@ -422,6 +586,20 @@ export default function DashboardPage() {
                     ))}
                   </div>
                 </div>
+
+                <div>
+                  <p className="text-xs font-semibold text-gray-500 mb-3 uppercase tracking-wide">Color Palette</p>
+                  <div className="grid gap-2.5">
+                    {colorPalettes.map((palette) => (
+                      <PaletteCard
+                        key={palette.name}
+                        palette={palette}
+                        selected={selectedPalette?.name === palette.name}
+                        onClick={() => setSelectedPaletteName(palette.name)}
+                      />
+                    ))}
+                  </div>
+                </div>
               </div>
             </Card>
           </div>
@@ -448,7 +626,7 @@ export default function DashboardPage() {
                 <Button onClick={handleGenerateSite} disabled={saving || generatingHtml} className="rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-lg transition">
                   <span className="inline-flex items-center gap-1.5">
                     <WandSparkles className="h-4 w-4 text-indigo-100" />
-                    {generatingHtml ? 'Generating HTML...' : 'Generate & Open Website'}
+                    {generatingHtml ? 'Generating Site...' : 'Generate and Open Site'}
                   </span>
                 </Button>
               </div>
@@ -458,7 +636,7 @@ export default function DashboardPage() {
               {generatingHtml ? (
                 <div className="rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm text-indigo-800 flex items-center gap-2 font-medium shadow-sm">
                   <LoaderCircle className="h-4 w-4 animate-spin" />
-                  Generating with Gemini... building a complete HTML website from your finalized insights.
+                  Generating with Gemini... building and opening your final site from the finalized insights.
                 </div>
               ) : null}
 
@@ -479,7 +657,7 @@ export default function DashboardPage() {
                         className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all font-semibold"
                       />
                     </label>
-                    <InsightSource insights={editorInsights.headline} />
+                    <GenerationReasonSource reasons={generationReasons.headline} />
                   </div>
 
                   <div>
@@ -492,7 +670,7 @@ export default function DashboardPage() {
                         className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all resize-none"
                       />
                     </label>
-                    <InsightSource insights={editorInsights.subheadline} />
+                    <GenerationReasonSource reasons={generationReasons.subheadline} />
                   </div>
 
                   <div>
@@ -504,7 +682,7 @@ export default function DashboardPage() {
                         className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all"
                       />
                     </label>
-                    <InsightSource insights={editorInsights.cta} />
+                    <GenerationReasonSource reasons={generationReasons.cta} />
                   </div>
                 </div>
               </Card>
@@ -527,7 +705,7 @@ export default function DashboardPage() {
                         className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all leading-relaxed"
                       />
                     </label>
-                    <InsightSource insights={editorInsights.benefits} />
+                    <GenerationReasonSource reasons={generationReasons.benefits} />
                   </div>
 
                   <div>
@@ -540,7 +718,7 @@ export default function DashboardPage() {
                         className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all leading-relaxed"
                       />
                     </label>
-                    <InsightSource insights={editorInsights.whyChooseUs} />
+                    <GenerationReasonSource reasons={generationReasons.whyChooseUs} />
                   </div>
                 </div>
               </Card>
@@ -563,7 +741,7 @@ export default function DashboardPage() {
                         className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10 transition-all leading-relaxed"
                       />
                     </label>
-                    <InsightSource insights={editorInsights.testimonials} />
+                    <GenerationReasonSource reasons={generationReasons.testimonials} />
                   </div>
                 </div>
               </Card>

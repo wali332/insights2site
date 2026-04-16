@@ -230,6 +230,7 @@ export const InputSection: React.FC<InputSectionProps> = ({ onGenerate, onUseCac
     const reviewPreview = extractReviews(upload).slice(0, 3);
     const hasLoadedFile = upload.fileName.length > 0;
     const columns = upload.headers.length > 0 ? upload.headers : [];
+    const inputId = 'product-reviews-csv-upload';
 
     return (
       <div className="rounded-2xl border border-gray-200 bg-white/70 p-4 shadow-sm backdrop-blur-sm">
@@ -246,16 +247,28 @@ export const InputSection: React.FC<InputSectionProps> = ({ onGenerate, onUseCac
           ) : null}
         </div>
 
-        <label className="mt-4 block text-sm font-medium text-gray-700">
-          <span className="inline-flex items-center gap-1.5"><Upload className="h-4 w-4" />Upload CSV</span>
-          <input
-            type="file"
-            accept=".csv,text/csv"
-            onChange={(event) => handleFileUpload(event.target.files?.[0])}
-            disabled={loading}
-            className="mt-2 block w-full cursor-pointer rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600 shadow-inner file:mr-4 file:rounded-lg file:border-0 file:bg-gray-900 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:cursor-not-allowed disabled:opacity-60"
-          />
-        </label>
+        <div className="mt-4 text-sm font-medium text-gray-700">
+          <div className="mt-2 flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-inner">
+            <label
+              htmlFor={inputId}
+              className={`inline-flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-2 text-sm font-semibold text-white transition ${
+                loading ? 'cursor-not-allowed opacity-60' : 'cursor-pointer hover:bg-gray-800'
+              }`}
+            >
+              <Upload className="h-4 w-4" />
+              Upload CSV
+            </label>
+            <input
+              id={inputId}
+              type="file"
+              accept=".csv,text/csv"
+              onChange={(event) => handleFileUpload(event.target.files?.[0])}
+              disabled={loading}
+              className="sr-only"
+            />
+            <span className="min-w-0 truncate text-sm text-gray-600">{upload.fileName || 'No file selected.'}</span>
+          </div>
+        </div>
 
         {upload.saving ? (
           <div className="mt-3 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700">
@@ -328,6 +341,38 @@ export const InputSection: React.FC<InputSectionProps> = ({ onGenerate, onUseCac
           </div>
         </div>
 
+        <div className="grid gap-4 lg:grid-cols-2">
+          <div className="rounded-2xl border border-gray-200 bg-gray-50/80 p-4">
+            <h3 className="text-sm font-bold uppercase tracking-wide text-gray-800">Option 1: Export From Google Takeout</h3>
+            <ol className="mt-3 space-y-1.5 text-sm text-gray-700 list-decimal list-inside leading-relaxed">
+              <li>Head over to Google Takeout.</li>
+              <li>Click on &quot;Deselect all&quot;.</li>
+              <li>Scroll down and enable &quot;Google Business Profile&quot;.</li>
+              <li>Click on &quot;Next step&quot; and follow the prompts to export your data.</li>
+              <li>Once the export is complete and downloaded, extract the ZIP file.</li>
+              <li>Open the extracted folder and locate the reviews CSV file.</li>
+              <li>On this page, click on &quot;Upload CSV&quot; and choose that CSV file.</li>
+              <li>Select the review column, then click &quot;Analyse Reviews&quot;.</li>
+            </ol>
+          </div>
+
+          <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+            <h3 className="text-sm font-bold uppercase tracking-wide text-slate-800">Option 2: Use a Third-Party Export Tool</h3>
+            <p className="mt-3 text-sm text-slate-700 leading-relaxed">
+              Use tools such as{' '}
+              <a
+                href="https://exportcomments.com/export-google-reviews"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold underline decoration-slate-400 underline-offset-2 hover:text-slate-900"
+              >
+                exportcomments.com/export-google-reviews
+              </a>{' '}
+              to export reviews, then upload the downloaded CSV file here.
+            </p>
+          </div>
+        </div>
+
         {renderUploadCard('Your Product Reviews CSV', 'Upload the raw customer feedback file for your own product.', productUpload)}
 
         {submitError ? (
@@ -361,7 +406,7 @@ export const InputSection: React.FC<InputSectionProps> = ({ onGenerate, onUseCac
                 Analyzing CSV reviews...
               </>
             ) : (
-              <span className="inline-flex items-center gap-1.5"><WandSparkles className="h-4 w-4" />Generate Website</span>
+              <span className="inline-flex items-center gap-1.5"><WandSparkles className="h-4 w-4" />Analyse Reviews</span>
             )}
           </Button>
         </div>

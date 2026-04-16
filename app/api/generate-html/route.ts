@@ -52,6 +52,7 @@ const extractHtml = (rawText: string): string => {
 
 const buildPrompt = (payload: GenerateHtmlRequest): string => {
   const preferences = payload.preferences || {};
+  const currentYear = new Date().getFullYear();
 
   return [
     'You are an expert frontend engineer and CRO-focused web designer.',
@@ -84,11 +85,15 @@ const buildPrompt = (payload: GenerateHtmlRequest): string => {
     '- Semantic HTML tags where appropriate (header, section, footer, main).',
     '- Accessible contrast and readable typography.',
     '- Keep content grounded in provided insights and website copy.',
+    `- Footer copyright MUST include the current year (${currentYear}).`,
     '',
     'CUSTOMIZATION HINTS:',
     `- Preferred style: ${preferences.style || 'Modern SaaS'}`,
     `- Preferred tone: ${preferences.tone || 'Professional'}`,
     `- Preferred audience: ${preferences.audience || 'General'}`,
+    `- Preferred color palette: ${preferences.colorPalette?.name || 'Not specified'}`,
+    `- Preferred colors: ${(preferences.colorPalette?.colors || []).join(', ') || 'Not specified'}`,
+    `- Palette note: ${preferences.colorPalette?.description || 'Not specified'}`,
   ].join('\n');
 };
 
