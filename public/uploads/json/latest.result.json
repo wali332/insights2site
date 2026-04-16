@@ -1,0 +1,91 @@
+{
+  "insights": [
+    {
+      "id": "i1",
+      "type": "pain",
+      "text": "Slow service speed during peak hours",
+      "usedIn": "benefits"
+    },
+    {
+      "id": "i2",
+      "type": "pain",
+      "text": "Limited parking availability and valet-related footpath congestion",
+      "usedIn": "benefits"
+    },
+    {
+      "id": "i3",
+      "type": "pain",
+      "text": "Long waiting times on weekends",
+      "usedIn": "benefits"
+    },
+    {
+      "id": "i4",
+      "type": "desire",
+      "text": "Exceptional value for money and pocket-friendly pricing",
+      "usedIn": "hero"
+    },
+    {
+      "id": "i5",
+      "type": "desire",
+      "text": "Generous portion sizes",
+      "usedIn": "hero"
+    },
+    {
+      "id": "i6",
+      "type": "desire",
+      "text": "High-quality signature burgers and creamy pastas",
+      "usedIn": "hero"
+    },
+    {
+      "id": "i7",
+      "type": "keyword",
+      "text": "All American Cheese Burger",
+      "usedIn": "cta"
+    },
+    {
+      "id": "i8",
+      "type": "keyword",
+      "text": "Pasta Alfredo",
+      "usedIn": "cta"
+    }
+  ],
+  "website": {
+    "hero": {
+      "headline": "Iconic Flavors, Incredible Value: Your Ultimate Comfort Food Destination",
+      "subheadline": "Experience the legendary taste of Truffles JP Nagar—where gourmet burgers, creamy pastas, and decadent desserts meet a vibrant, family-friendly vibe.",
+      "source": "desire: Exceptional value for money and pocket-friendly pricing"
+    },
+    "benefits": {
+      "items": [
+        "Legendary Signature Burgers including the All American Cheese Burger and Tandoori Chicken fusion",
+        "Indulgent Dessert Gallery featuring Banoffee Pie, Ferrero Shakes, and Red Velvet Sundaes",
+        "Diverse Multi-Cuisine Menu spanning Italian pastas, smoky pizzas, and classic steaks",
+        "Vibrant Café Ambiance perfect for casual brunches and lively family gatherings",
+        "Unbeatable Value with generous portions that are easy on the pocket"
+      ],
+      "source": "pain: Slow service speed during peak hours"
+    },
+    "headline": "Iconic Flavors, Incredible Value: Your Ultimate Comfort Food Destination",
+    "subheadline": "Experience the legendary taste of Truffles JP Nagar—where gourmet burgers, creamy pastas, and decadent desserts meet a vibrant, family-friendly vibe.",
+    "benefitsList": [
+      "Legendary Signature Burgers including the All American Cheese Burger and Tandoori Chicken fusion",
+      "Indulgent Dessert Gallery featuring Banoffee Pie, Ferrero Shakes, and Red Velvet Sundaes",
+      "Diverse Multi-Cuisine Menu spanning Italian pastas, smoky pizzas, and classic steaks",
+      "Vibrant Café Ambiance perfect for casual brunches and lively family gatherings",
+      "Unbeatable Value with generous portions that are easy on the pocket"
+    ],
+    "testimonials": [
+      "Truffles has easily become my absolute favourite spot for Sunday brunches. The place never disappoints when it comes to good food, great portions, and a casual vibe.",
+      "The All American Cheese Burger is an absolute showstopper—generously sized, incredibly juicy, and loaded with that indulgent signature cheese burst.",
+      "One of the best places to visit if you’re on a budget. The food is amazing and very affordable. A classic crowd-favorite."
+    ],
+    "cta": "Visit Us at JP Nagar for Your Next Meal",
+    "why_choose_us": [
+      "Consistent quality and taste with a legacy of excellence",
+      "A welcoming environment that caters to both kids and adults",
+      "Extensive variety ensuring there is something for every palate",
+      "Premium dining experience at a highly reasonable price point"
+    ]
+  },
+  "tone": "modern"
+}

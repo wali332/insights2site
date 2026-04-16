@@ -1,124 +1,488 @@
 import { NextResponse } from 'next/server';
-import { GenerateResponse, Insight, Website } from '../../../types';
+import { mkdir, writeFile } from 'fs/promises';
+import path from 'path';
+import { GoogleGenAI } from '@google/genai';
+import { GenerateResponse, Insight, InsightType } from '../../../types';
+
+export const runtime = 'nodejs';
+
+const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-3-flash-preview';
+const GEMINI_MODEL_CANDIDATES = [
+  GEMINI_MODEL,
+  'gemini-3.1-flash-lite-preview',
+  'gemini-3-flash-preview',
+  'gemini-2.0-flash',
+  'gemini-2.0-flash-lite',
+  'gemini-1.5-flash-latest',
+  'gemini-1.5-flash-002',
+  'gemini-1.5-flash',
+];
+const MIN_REVIEW_LENGTH = 20;
+const MAX_REVIEWS = 60;
+const GENERATION_OUTPUT_DIR = path.join(process.cwd(), 'public', 'uploads', 'json');
+
+type GeminiStructuredOutput = {
+  strengths?: unknown;
+  pain_points?: unknown;
+  customer_types?: unknown;
+  keywords?: unknown;
+  headline?: unknown;
+  subheadline?: unknown;
+  features?: unknown;
+  testimonials?: unknown;
+  cta?: unknown;
+  why_choose_us?: unknown;
+  tone?: unknown;
+};
+
+type GeminiErrorPayload = {
+  error?: {
+    code?: number;
+    message?: string;
+    status?: string;
+    details?: Array<{
+      '@type'?: string;
+      retryDelay?: string;
+    }>;
+  };
+};
+
+class GenerateRouteError extends Error {
+  status: number;
+
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = 'GenerateRouteError';
+    this.status = status;
+  }
+}
+
+const toStringArray = (value: unknown): string[] => {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map((item) => (typeof item === 'string' ? item.trim() : ''))
+    .filter((item) => item.length > 0);
+};
+
+const sanitizeText = (value: unknown, fallback: string): string => {
+  if (typeof value !== 'string') {
+    return fallback;
+  }
+
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : fallback;
+};
+
+const extractJsonString = (rawText: string): string => {
+  const fencedJsonMatch = rawText.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+  if (fencedJsonMatch && fencedJsonMatch[1]) {
+    return fencedJsonMatch[1].trim();
+  }
+
+  const firstBraceIndex = rawText.indexOf('{');
+  const lastBraceIndex = rawText.lastIndexOf('}');
+
+  if (firstBraceIndex !== -1 && lastBraceIndex !== -1 && lastBraceIndex > firstBraceIndex) {
+    return rawText.slice(firstBraceIndex, lastBraceIndex + 1).trim();
+  }
+
+  return rawText.trim();
+};
+
+const safeJsonParse = (rawText: string): GeminiStructuredOutput => {
+  const candidate = extractJsonString(rawText);
+
+  try {
+    const parsed = JSON.parse(candidate);
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+      throw new Error('Gemini output is not a JSON object.');
+    }
+
+    return parsed as GeminiStructuredOutput;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown JSON parse error.';
+    throw new Error(`Invalid JSON from Gemini: ${message}`);
+  }
+};
+
+const cleanAndLimitReviews = (text: string): string[] => {
+  const normalizedLines = text
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0)
+    .filter((line) => !/^your product reviews\s*:?$/i.test(line))
+    .map((line) => line.replace(/^\d+[.)-]?\s+/, '').trim())
+    .filter((line) => line.length >= MIN_REVIEW_LENGTH);
+
+  return normalizedLines.slice(0, MAX_REVIEWS);
+};
+
+const formatReviewsForPrompt = (reviews: string[]): string => {
+  return reviews.map((review, index) => `${index + 1}. ${review}`).join('\n');
+};
+
+const buildPrompt = (formattedReviews: string): string => {
+  return [
+    'You are a product marketing strategist and UX researcher.',
+    'Analyze the customer reviews and return strictly valid JSON only.',
+    'Do not include markdown, explanations, or code fences.',
+    '',
+    'Tasks:',
+    '- Analyze reviews deeply.',
+    '- Extract strengths, pain_points, customer_types, keywords.',
+    '- Generate headline, subheadline, features (3-5), testimonials (2-3), cta, why_choose_us.',
+    '',
+    'Output JSON schema:',
+    '{',
+    '  "strengths": ["..."],',
+    '  "pain_points": ["..."],',
+    '  "customer_types": ["..."],',
+    '  "keywords": ["..."],',
+    '  "headline": "...",',
+    '  "subheadline": "...",',
+    '  "features": ["..."],',
+    '  "testimonials": ["..."],',
+    '  "cta": "...",',
+    '  "why_choose_us": ["..."],',
+    '  "tone": "modern"',
+    '}',
+    '',
+    'Customer reviews:',
+    formattedReviews,
+  ].join('\n');
+};
+
+const buildInsights = (painPoints: string[], strengths: string[], keywords: string[]): Insight[] => {
+  const insights: Insight[] = [];
+  let idCounter = 1;
+
+  const appendInsights = (items: string[], type: InsightType, usedIn: string) => {
+    for (const item of items) {
+      insights.push({
+        id: `i${idCounter}`,
+        type,
+        text: item,
+        usedIn,
+      });
+      idCounter += 1;
+    }
+  };
+
+  appendInsights(painPoints.slice(0, 3), 'pain', 'benefits');
+  appendInsights(strengths.slice(0, 3), 'desire', 'hero');
+  appendInsights(keywords.slice(0, 2), 'keyword', 'cta');
+
+  if (insights.length === 0) {
+    insights.push(
+      {
+        id: 'i1',
+        type: 'pain',
+        text: 'Users report onboarding friction and unclear setup.',
+        usedIn: 'benefits',
+      },
+      {
+        id: 'i2',
+        type: 'desire',
+        text: 'Users want a simple, intuitive product experience.',
+        usedIn: 'hero',
+      }
+    );
+  }
+
+  return insights;
+};
+
+const normalizeGeminiOutput = (output: GeminiStructuredOutput): GenerateResponse => {
+  const strengths = toStringArray(output.strengths);
+  const painPoints = toStringArray(output.pain_points);
+  const keywords = toStringArray(output.keywords);
+
+  const features = toStringArray(output.features).slice(0, 5);
+  const testimonials = toStringArray(output.testimonials).slice(0, 3);
+
+  const safeFeatures = features.length > 0
+    ? features
+    : ['Easy setup', 'Clear workflows', 'Reliable daily performance'];
+
+  const safeTestimonials = testimonials.length > 0
+    ? testimonials
+    : ['This solved the problem we were struggling with most.'];
+
+  const whyChooseUsArray = Array.isArray(output.why_choose_us)
+    ? toStringArray(output.why_choose_us)
+    : typeof output.why_choose_us === 'string' && output.why_choose_us.trim().length > 0
+      ? [output.why_choose_us.trim()]
+      : [];
+
+  const headline = sanitizeText(output.headline, 'A Simpler Experience Built from Real Customer Feedback');
+  const subheadline = sanitizeText(
+    output.subheadline,
+    'Insight-driven messaging and UX direction powered by what users actually say.'
+  );
+  const cta = sanitizeText(output.cta, 'Get Started');
+  const tone = sanitizeText(output.tone, 'modern');
+
+  const insights = buildInsights(painPoints, strengths, keywords);
+
+  return {
+    insights,
+    website: {
+      hero: {
+        headline,
+        subheadline,
+        source: strengths[0] ? `desire: ${strengths[0]}` : 'desire: easy to use',
+      },
+      benefits: {
+        items: safeFeatures.slice(0, 5),
+        source: painPoints[0] ? `pain: ${painPoints[0]}` : 'pain: onboarding friction',
+      },
+      // Flat keys preserved for existing preview components.
+      headline,
+      subheadline,
+      benefitsList: safeFeatures.slice(0, 5),
+      testimonials: safeTestimonials,
+      cta,
+      why_choose_us: whyChooseUsArray,
+    },
+    tone,
+  };
+};
+
+const normalizeModelName = (modelName: string): string => {
+  return modelName.replace(/^models\//, '').trim();
+};
+
+const uniqueModels = (models: string[]): string[] => {
+  const seen = new Set<string>();
+  const result: string[] = [];
+
+  for (const model of models) {
+    const normalized = normalizeModelName(model);
+    if (!normalized || seen.has(normalized)) {
+      continue;
+    }
+
+    seen.add(normalized);
+    result.push(normalized);
+  }
+
+  return result;
+};
+
+const RETRYABLE_GEMINI_STATUSES = new Set([404, 408, 409, 429, 500, 502, 503, 504]);
+
+const parseGeminiErrorPayload = (errorText: string): GeminiErrorPayload | null => {
+  try {
+    return JSON.parse(errorText) as GeminiErrorPayload;
+  } catch {
+    return null;
+  }
+};
+
+const extractRetryDelaySeconds = (errorText: string): number | null => {
+  const payload = parseGeminiErrorPayload(errorText);
+  const retryDetail = payload?.error?.details?.find((detail) => detail['@type']?.includes('RetryInfo'));
+  const retryDelay = retryDetail?.retryDelay;
+
+  if (typeof retryDelay === 'string') {
+    const delayMatch = retryDelay.match(/([\d.]+)s/i);
+    if (delayMatch?.[1]) {
+      const delayValue = Number(delayMatch[1]);
+      if (Number.isFinite(delayValue)) {
+        return Math.ceil(delayValue);
+      }
+    }
+  }
+
+  const textMatch = errorText.match(/retry in\s+([\d.]+)s/i);
+  if (textMatch?.[1]) {
+    const delayValue = Number(textMatch[1]);
+    if (Number.isFinite(delayValue)) {
+      return Math.ceil(delayValue);
+    }
+  }
+
+  return null;
+};
+
+const getErrorStatusCode = (error: unknown): number | null => {
+  if (typeof error !== 'object' || error === null) {
+    return null;
+  }
+
+  const maybeStatus = (error as { status?: unknown }).status;
+  if (typeof maybeStatus === 'number') {
+    return maybeStatus;
+  }
+
+  const message = (error as { message?: unknown }).message;
+  if (typeof message === 'string') {
+    const match = message.match(/\b(4\d\d|5\d\d)\b/);
+    if (match?.[1]) {
+      return Number(match[1]);
+    }
+  }
+
+  return null;
+};
+
+const callGemini = async (prompt: string): Promise<GeminiStructuredOutput> => {
+  const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+
+  if (!apiKey) {
+    throw new Error('Missing Gemini API key. Set GEMINI_API_KEY (or GOOGLE_API_KEY).');
+  }
+
+  const ai = new GoogleGenAI({ apiKey });
+  const configuredCandidates = uniqueModels(GEMINI_MODEL_CANDIDATES);
+  const modelsToTry = configuredCandidates;
+
+  const errors: string[] = [];
+  let sawQuotaError = false;
+  let suggestedRetryDelaySeconds: number | null = null;
+
+  for (const model of modelsToTry) {
+    try {
+      const sdkResponse = await ai.models.generateContent({
+        model,
+        contents: prompt,
+        config: {
+          temperature: 0.2,
+          responseMimeType: 'application/json',
+        },
+      });
+
+      const rawText = typeof sdkResponse.text === 'string' ? sdkResponse.text : '';
+
+      if (!rawText) {
+        errors.push(`${model}: empty response text`);
+        continue;
+      }
+
+      return safeJsonParse(rawText);
+    } catch (error) {
+      const statusCode = getErrorStatusCode(error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown Gemini SDK error.';
+      errors.push(`${model} (${statusCode ?? 'unknown'}): ${errorMessage}`);
+
+      if (statusCode === 429 || errorMessage.includes('RESOURCE_EXHAUSTED')) {
+        sawQuotaError = true;
+        const parsedDelay = extractRetryDelaySeconds(errorMessage);
+        if (parsedDelay !== null) {
+          suggestedRetryDelaySeconds = Math.max(suggestedRetryDelaySeconds ?? 0, parsedDelay);
+        }
+      }
+
+      if (statusCode !== null && RETRYABLE_GEMINI_STATUSES.has(statusCode)) {
+        continue;
+      }
+
+      if (errorMessage.includes('not found') || errorMessage.includes('NOT_FOUND')) {
+        continue;
+      }
+
+      throw new Error(`Gemini SDK failure using ${model}: ${errorMessage}`);
+    }
+  }
+
+  if (sawQuotaError) {
+    const retryHint = suggestedRetryDelaySeconds !== null
+      ? ` Retry in about ${suggestedRetryDelaySeconds}s.`
+      : '';
+    throw new GenerateRouteError(
+      `Gemini quota exceeded across available models.${retryHint} Check plan/billing and rate limits in Google AI Studio.`,
+      429
+    );
+  }
+
+  throw new Error(`Gemini API failure after trying models: ${errors.join(' | ')}`);
+};
+
+const persistGenerationArtifacts = async (
+  cleanedReviews: string[],
+  geminiOutput: GeminiStructuredOutput,
+  normalizedResponse: GenerateResponse
+) => {
+  await mkdir(GENERATION_OUTPUT_DIR, { recursive: true });
+
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const baseName = `generation-${timestamp}`;
+
+  const cleanedReviewsPayload = {
+    count: cleanedReviews.length,
+    reviews: cleanedReviews,
+  };
+
+  await Promise.all([
+    writeFile(
+      path.join(GENERATION_OUTPUT_DIR, `${baseName}.reviews.cleaned.json`),
+      JSON.stringify(cleanedReviewsPayload, null, 2),
+      'utf8'
+    ),
+    writeFile(
+      path.join(GENERATION_OUTPUT_DIR, `${baseName}.gemini.raw.json`),
+      JSON.stringify(geminiOutput, null, 2),
+      'utf8'
+    ),
+    writeFile(
+      path.join(GENERATION_OUTPUT_DIR, `${baseName}.result.json`),
+      JSON.stringify(normalizedResponse, null, 2),
+      'utf8'
+    ),
+    writeFile(
+      path.join(GENERATION_OUTPUT_DIR, 'latest.result.json'),
+      JSON.stringify(normalizedResponse, null, 2),
+      'utf8'
+    ),
+  ]);
+};
 
 export const POST = async (request: Request) => {
   try {
-    const { text } = await request.json();
+    const body = (await request.json()) as { text?: unknown };
 
-    if (!text || typeof text !== 'string') {
-      return NextResponse.json({ error: "Invalid input" }, { status: 400 });
+    if (typeof body.text !== 'string' || body.text.trim().length === 0) {
+      return NextResponse.json({ error: 'Invalid input: reviews text is required.' }, { status: 400 });
     }
 
-    // Heuristic text parsing algorithm
-    const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
-    
-    // Identify negative / pain keywords
-    const painKeywords = ['mess', 'struggling', 'wish', 'overwhelmed', 'hard', 'slow', 'bad', 'issue', 'problem', 'difficult'];
-    const desireKeywords = ['saved', 'easy', 'recommend', 'great', 'reduced', 'increased', 'love', 'perfect', 'lifesaver', 'automatically'];
-    
-    const insights: Insight[] = [];
-    
-    let combinedBenefits: string[] = [];
-    let combinedTestimonials: string[] = [];
-    let mainPain = "manual tasks and disorganized schedules";
-    let mainDesire = "a streamlined, automated system";
-    
-    sentences.forEach((sentence, idx) => {
-      const lowerSentence = sentence.toLowerCase();
-      
-      let isPain = painKeywords.some(kw => lowerSentence.includes(kw));
-      let isDesire = desireKeywords.some(kw => lowerSentence.includes(kw));
-      
-      if (isPain) {
-        insights.push({
-          id: `insight-pain-${idx}`,
-          type: "pain",
-          text: sentence.trim(),
-          usedIn: "hero"
-        });
-        mainPain = sentence.trim();
-      }
-      
-      if (isDesire) {
-        insights.push({
-          id: `insight-desire-${idx}`,
-          type: "desire",
-          text: sentence.trim(),
-          usedIn: "benefits"
-        });
-        combinedBenefits.push(sentence.trim());
-      }
-      
-      // Keywords - extract specific length nouns heuristically (rough approximation)
-      const words = sentence.split(/\s+/);
-      const longWords = words.filter(w => w.length > 7);
-      if (longWords.length > 0 && insights.length < 5) {
-        insights.push({
-          id: `insight-kw-${idx}`,
-          type: "keyword",
-          text: `Focuses on: ${longWords[0].replace(/[^a-zA-Z]/g, '')}`,
-          usedIn: "cta"
-        });
-      }
-      
-      if (sentence.length > 20 && combinedTestimonials.length < 2) {
-        combinedTestimonials.push(sentence.trim());
-      }
-    });
+    const cleanedReviews = cleanAndLimitReviews(body.text);
 
-    // Make sure we have enough insights fallback natively
-    if (insights.length === 0) {
-      insights.push({
-        id: "default-1",
-        type: "pain",
-        text: "Users are facing unspecified challenges.",
-        usedIn: "hero"
-      });
-      insights.push({
-        id: "default-2",
-        type: "desire",
-        text: "Users desire an easy solution.",
-        usedIn: "benefits"
-      });
+    if (cleanedReviews.length === 0) {
+      return NextResponse.json(
+        {
+          error: `No valid reviews after cleaning. Ensure reviews are at least ${MIN_REVIEW_LENGTH} characters long.`,
+        },
+        { status: 400 }
+      );
     }
 
-    // Add a default testimonial mapping to show interaction
-    if (combinedTestimonials.length > 0) {
-      insights.push({
-        id: `insight-testi-main`,
-        type: "desire",
-        text: "Strong positive reception from users.",
-        usedIn: "testimonials"
-      });
+    const formattedReviews = formatReviewsForPrompt(cleanedReviews);
+    const prompt = buildPrompt(formattedReviews);
+
+    const geminiOutput = await callGemini(prompt);
+    const response = normalizeGeminiOutput(geminiOutput);
+
+    try {
+      await persistGenerationArtifacts(cleanedReviews, geminiOutput, response);
+    } catch (persistError) {
+      console.error('Artifact persistence error', persistError);
     }
-
-    // Construct website data based on text
-    const website: Website = {
-      headline: `Stop struggling with ${mainPain.substring(0, 30)}...`,
-      subheadline: `Get ${mainDesire} today. Our platform transforms how you work with smart automation based on real feedback.`,
-      benefits: combinedBenefits.length >= 3 ? combinedBenefits.slice(0, 3) : [
-        "Saves you 10+ hours a week.",
-        "Reduces human error significantly.",
-        "Integrates with your existing workflow."
-      ],
-      testimonials: combinedTestimonials.length >= 2 ? combinedTestimonials.slice(0, 2) : [
-        "This product is amazing. I can't imagine working without it anymore.",
-        "It literally takes the pain out of my daily administrative tasks. Highly recommended!"
-      ],
-      cta: "Start Your Free Trial"
-    };
-
-    const response: GenerateResponse = {
-      insights,
-      website
-    };
-
-    // Simulate network delay for realistic loader UX
-    await new Promise(resolve => setTimeout(resolve, 1500));
 
     return NextResponse.json(response);
   } catch (error) {
-    console.error("Generate error", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    const message = error instanceof Error ? error.message : 'Unknown server error.';
+    console.error('Generate error', error);
+
+    const status = error instanceof GenerateRouteError ? error.status : 502;
+
+    return NextResponse.json(
+      {
+        error: message.includes('Invalid JSON from Gemini') ? message : `Generation failed: ${message}`,
+      },
+      { status }
+    );
   }
 };

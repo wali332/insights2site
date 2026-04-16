@@ -19,7 +19,7 @@ export const InsightsPanel: React.FC<InsightsPanelProps> = ({
       <Card className="h-full flex flex-col items-center justify-center text-center p-8 bg-white/50 border-dashed border-2 border-gray-200">
         <div className="text-4xl mb-4 opacity-50">🔍</div>
         <h3 className="text-lg font-semibold text-gray-700 mb-2">No Insights Yet</h3>
-        <p className="text-gray-500 text-sm">Paste some reviews and click generate to extract actionable insights.</p>
+        <p className="text-gray-500 text-sm">Upload your CSV and click generate to extract actionable insights.</p>
       </Card>
     );
   }

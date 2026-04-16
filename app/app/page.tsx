@@ -2,10 +2,15 @@
 
 import React from 'react';
 import { Navbar } from '../../components/layout/Navbar';
-import { InputSection } from '../../components/input/InputSection';
+import dynamic from 'next/dynamic';
 import { InsightsPanel } from '../../components/insights/InsightsPanel';
 import { WebsitePreview } from '../../components/preview/WebsitePreview';
 import { useGenerate } from '../../hooks/useGenerate';
+
+const InputSection = dynamic(
+  () => import('../../components/input/InputSection').then((module) => module.InputSection),
+  { ssr: false }
+);
 
 export default function AppPage() {
   const { 

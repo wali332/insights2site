@@ -8,6 +8,10 @@ interface SectionProps {
 }
 
 export const BenefitsSection: React.FC<SectionProps> = ({ website, isHighlighted, insightText }) => {
+  const benefitItems = Array.isArray(website.benefits)
+    ? website.benefits
+    : website.benefits.items;
+
   return (
     <div className={`relative p-8 rounded-2xl transition-all duration-500 mb-6 
       ${isHighlighted ? 'ring-4 ring-green-500 bg-green-50/50 scale-[1.01] shadow-xl' : 'bg-white shadow-sm hover:shadow-md'}`}>
@@ -20,7 +24,7 @@ export const BenefitsSection: React.FC<SectionProps> = ({ website, isHighlighted
 
       <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Why Choose Us</h2>
       <div className="grid md:grid-cols-3 gap-6">
-        {website.benefits.map((benefit, i) => (
+        {benefitItems.map((benefit, i) => (
           <div key={i} className="bg-gray-50 p-6 rounded-xl border border-gray-100">
             <div className="w-10 h-10 bg-green-100 text-green-600 rounded-lg flex items-center justify-center font-bold text-xl mb-4">
               {i + 1}

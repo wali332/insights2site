@@ -25,7 +25,7 @@ export const WebsitePreview: React.FC<WebsitePreviewProps> = ({
         </div>
         <h3 className="text-xl font-bold text-gray-800 mb-2">Live Website Preview</h3>
         <p className="text-gray-500 max-w-sm">
-          Paste your customer reviews and click Generate to see your new landing page structured dynamically from insights.
+          Upload your CSV reviews and click Generate to see your new landing page structured dynamically from insights.
         </p>
       </Card>
     );
