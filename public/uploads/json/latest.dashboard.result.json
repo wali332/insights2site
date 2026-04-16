@@ -3,19 +3,19 @@
     {
       "id": "i1",
       "type": "pain",
-      "text": "Significant service delays and slow order fulfillment compared to other branches",
+      "text": "Significant service delays and slow order fulfillment at the JP Nagar branch",
       "usedIn": "benefits"
     },
     {
       "id": "i2",
       "type": "pain",
-      "text": "Limited parking availability and challenges with valet management",
+      "text": "Limited parking availability and issues with valet/footpath encroachment",
       "usedIn": "benefits"
     },
     {
       "id": "i3",
       "type": "pain",
-      "text": "Crowded environment with long waiting times during weekends",
+      "text": "High noise levels and long waiting times during peak hours",
       "usedIn": "benefits"
     },
     {
@@ -27,61 +27,64 @@
     {
       "id": "i5",
       "type": "desire",
-      "text": "Generous portion sizes across the menu",
+      "text": "High-quality comfort food with generous portion sizes",
       "usedIn": "hero"
     },
     {
       "id": "i6",
       "type": "desire",
-      "text": "High-quality, consistent taste in signature dishes like burgers and Alfredo pasta",
+      "text": "Iconic signature dishes like the All American Cheese Burger and Pasta Alfredo",
       "usedIn": "hero"
     },
     {
       "id": "i7",
       "type": "keyword",
-      "text": "All American Cheese Burger",
+      "text": "Burgers",
       "usedIn": "cta"
     },
     {
       "id": "i8",
       "type": "keyword",
-      "text": "Italian Pasta Alfredo",
+      "text": "Pasta Alfredo",
       "usedIn": "cta"
     }
   ],
   "website": {
     "hero": {
-      "headline": "Legendary Flavors, Iconic Vibes, and Prices You’ll Love.",
-      "subheadline": "Join the crowd at JP Nagar’s favorite spot for juicy burgers, creamy pastas, and decadent desserts that never break the bank.",
+      "headline": "Iconic Flavors, Legendary Burgers, and Unbeatable Value.",
+      "subheadline": "Experience the perfect blend of vibrant café vibes and comforting global cuisine at JP Nagar’s favorite hangout spot.",
       "source": "desire: Exceptional value for money and pocket-friendly pricing"
     },
     "benefits": {
       "items": [
-        "Signature Gourmet Burgers: From the iconic All American Cheese Burger to fusion Tandoori Chicken options.",
-        "Comforting Italian Classics: Our fan-favorite Italian Pasta Alfredo is crafted for creamy perfection every time.",
-        "Indulgent Sweet Endings: A massive selection of shakes, sundaes, and our legendary Banoffee pie.",
-        "Vibrant Social Space: A clean, lively, and buzzing atmosphere perfect for family meals or friend hangouts."
+        "Signature Gourmet Burgers: From the juicy All American Cheese Burger to the fusion Tandoori Chicken Burger.",
+        "Creamy Italian Classics: Our legendary Pasta Alfredo delivers comfort in every bite.",
+        "Indulgent Shakes & Desserts: Decadent treats like the Ferrero Rocher Shake and Red Velvet Sundae.",
+        "Diverse Menu: A wide array of veg and non-veg options including pizzas, steaks, and appetizers.",
+        "Vibrant Ambiance: An impeccably clean and lively space perfect for any social gathering."
       ],
-      "source": "pain: Significant service delays and slow order fulfillment compared to other branches"
+      "source": "pain: Significant service delays and slow order fulfillment at the JP Nagar branch"
     },
-    "headline": "Legendary Flavors, Iconic Vibes, and Prices You’ll Love.",
-    "subheadline": "Join the crowd at JP Nagar’s favorite spot for juicy burgers, creamy pastas, and decadent desserts that never break the bank.",
+    "headline": "Iconic Flavors, Legendary Burgers, and Unbeatable Value.",
+    "subheadline": "Experience the perfect blend of vibrant café vibes and comforting global cuisine at JP Nagar’s favorite hangout spot.",
     "benefitsList": [
-      "Signature Gourmet Burgers: From the iconic All American Cheese Burger to fusion Tandoori Chicken options.",
-      "Comforting Italian Classics: Our fan-favorite Italian Pasta Alfredo is crafted for creamy perfection every time.",
-      "Indulgent Sweet Endings: A massive selection of shakes, sundaes, and our legendary Banoffee pie.",
-      "Vibrant Social Space: A clean, lively, and buzzing atmosphere perfect for family meals or friend hangouts."
+      "Signature Gourmet Burgers: From the juicy All American Cheese Burger to the fusion Tandoori Chicken Burger.",
+      "Creamy Italian Classics: Our legendary Pasta Alfredo delivers comfort in every bite.",
+      "Indulgent Shakes & Desserts: Decadent treats like the Ferrero Rocher Shake and Red Velvet Sundae.",
+      "Diverse Menu: A wide array of veg and non-veg options including pizzas, steaks, and appetizers.",
+      "Vibrant Ambiance: An impeccably clean and lively space perfect for any social gathering."
     ],
     "testimonials": [
-      "Truffles has become my absolute favourite spot. The place never disappoints when it comes to good food, great portions, and a casual vibe.",
-      "The All American Cheese Burger is an absolute showstopper—generously sized, incredibly juicy, and loaded with signature cheese burst.",
-      "What I love is that despite the quality and quantity, the pricing remains quite reasonable. It’s a classic crowd-favorite."
+      "The real star for me is the Italian Pasta Alfredo. It’s creamy, comforting, and consistently delicious every single time.",
+      "Truffles continues to be my go-to place for brunches. Great food, great portions, and a casual vibe that never disappoints.",
+      "One of the best places to visit if you’re on a budget. The food is amazing and very affordable."
     ],
     "cta": "Visit Us for Your Next Sunday Brunch",
     "why_choose_us": [
-      "Unbeatable value for money with a premium culinary experience.",
-      "A diverse menu that ensures every family member finds a favorite.",
-      "Consistent quality from one of the city's most trusted food legacies."
+      "Legendary reputation for taste and quality since the 'Ice and Spice' days.",
+      "Generous portions that offer the best value for your money.",
+      "A welcoming atmosphere suitable for both quick bites and long family meals.",
+      "Consistently fresh ingredients and a menu that caters to the Indian palate."
     ]
   },
   "tone": "modern"
