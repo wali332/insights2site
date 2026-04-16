@@ -7,7 +7,7 @@ import { Breadcrumbs } from '../../components/layout/Breadcrumbs';
 import dynamic from 'next/dynamic';
 import { useGenerate } from '../../hooks/useGenerate';
 import { Card } from '../../components/ui/Card';
-import { BarChart3, BrainCircuit, FileSpreadsheet, MonitorSmartphone } from 'lucide-react';
+import { BarChart3, BrainCircuit, FileSpreadsheet } from 'lucide-react';
 
 const InputSection = dynamic(
   () => import('../../components/input/InputSection').then((module) => module.InputSection),
@@ -47,7 +47,6 @@ export default function AppPage() {
             items={[
               { label: 'Review Upload', href: '/app', icon: FileSpreadsheet },
               { label: 'AI Insights', href: '/app/dashboard', icon: BrainCircuit },
-              { label: 'Website Preview', href: '/app/render', icon: MonitorSmartphone },
             ]}
           />
 
@@ -61,8 +60,8 @@ export default function AppPage() {
           <Card className="border border-gray-200 bg-white/60">
             <h2 className="text-lg font-semibold text-gray-900 mb-2 inline-flex items-center gap-2"><BarChart3 className="h-4 w-4 text-gray-700" />Dashboard Flow</h2>
             <p className="text-sm text-gray-600">
-              After generation, you will be redirected to a dedicated dashboard at /app/dashboard where you can inspect KPI,
-              preview the website, and download HTML without re-calling Gemini unless you generate again.
+              After generation, you will be redirected to AI Insights at /app/dashboard where you can inspect sentiment,
+              finalize content, and generate the website in a dedicated new tab.
             </p>
           </Card>
         </div>

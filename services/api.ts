@@ -1,4 +1,4 @@
-import { GenerateResponse } from "../types";
+import { GenerateHtmlRequest, GenerateResponse } from "../types";
 
 export const generateWebsiteData = async (reviewsText: string): Promise<GenerateResponse> => {
   const res = await fetch("/api/generate", {
@@ -29,4 +29,27 @@ export const persistGeneratedResponse = async (payload: GenerateResponse): Promi
     const errorBody = await res.json().catch(() => null);
     throw new Error(errorBody?.error || 'Failed to persist generated response.');
   }
+};
+
+export const generateWebsiteHtml = async (payload: GenerateHtmlRequest): Promise<string> => {
+  const res = await fetch('/api/generate-html', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const responseBody = (await res.json().catch(() => null)) as { html?: string; error?: string } | null;
+
+  if (!res.ok) {
+    throw new Error(responseBody?.error || 'Failed to generate HTML website.');
+  }
+
+  const html = typeof responseBody?.html === 'string' ? responseBody.html.trim() : '';
+  if (!html) {
+    throw new Error('Gemini returned an empty HTML response.');
+  }
+
+  return html;
 };

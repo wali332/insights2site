@@ -34,3 +34,14 @@ export interface GenerateResponse {
   website: Website;
   tone?: string;
 }
+
+export interface HtmlGenerationPreferences {
+  style?: string;
+  tone?: string;
+  audience?: string;
+}
+
+export interface GenerateHtmlRequest {
+  response: GenerateResponse;
+  preferences?: HtmlGenerationPreferences;
+}

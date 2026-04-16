@@ -2,14 +2,13 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { Navbar } from '../../../components/layout/Navbar';
 import { Breadcrumbs } from '../../../components/layout/Breadcrumbs';
 import { Card } from '../../../components/ui/Card';
 import { Button } from '../../../components/ui/Button';
-import { GenerateResponse, Website } from '../../../types';
+import { GenerateResponse, Insight, Website } from '../../../types';
 import { useGenerate } from '../../../hooks/useGenerate';
-import { BrainCircuit, CircleAlert, FileSpreadsheet, MonitorSmartphone, Save, WandSparkles, LayoutTemplate, Layers, Sparkles, MessageSquare, Target, Users, AlertTriangle, Heart } from 'lucide-react';
+import { BrainCircuit, CircleAlert, FileSpreadsheet, Save, WandSparkles, LayoutTemplate, Layers, Sparkles, MessageSquare, Target, Users, AlertTriangle, Heart, LoaderCircle } from 'lucide-react';
 
 const getBenefits = (website: Website): string[] => {
   if (Array.isArray(website.benefits)) {
@@ -76,7 +75,7 @@ const buildDraftFromEditor = (
   };
 };
 
-function InsightSource({ insights }: { insights: any[] }) {
+function InsightSource({ insights }: { insights: Array<Pick<Insight, 'text'>> }) {
   if (!insights || insights.length === 0) return null;
 
   return (
@@ -85,7 +84,7 @@ function InsightSource({ insights }: { insights: any[] }) {
         <Sparkles className="h-3 w-3 text-indigo-300" /> Generated from customer insights
       </p>
       <div className="flex flex-wrap gap-2">
-        {insights.slice(0, 2).map((insight: any, i: number) => (
+        {insights.slice(0, 2).map((insight, i) => (
           <span key={i} className="inline-flex items-center bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full text-xs font-medium leading-tight shadow-sm border border-gray-200/50 max-w-full">
             <span className="truncate whitespace-normal line-clamp-2">{insight.text}</span>
           </span>
@@ -95,7 +94,13 @@ function InsightSource({ insights }: { insights: any[] }) {
   );
 }
 
-const OptionCard = ({ label, selected, onClick }: any) => (
+interface OptionCardProps {
+  label: string;
+  selected: boolean;
+  onClick: () => void;
+}
+
+const OptionCard = ({ label, selected, onClick }: OptionCardProps) => (
   <button
     type="button"
     onClick={onClick}
@@ -109,13 +114,42 @@ const OptionCard = ({ label, selected, onClick }: any) => (
   </button>
 );
 
+const buildCurrentDraftFromState = ({
+  source,
+  headline,
+  subheadline,
+  cta,
+  benefitsText,
+  testimonialsText,
+  whyChooseUsText,
+}: {
+  source: GenerateResponse;
+  headline: string;
+  subheadline: string;
+  cta: string;
+  benefitsText: string;
+  testimonialsText: string;
+  whyChooseUsText: string;
+}): GenerateResponse => {
+  return buildDraftFromEditor(
+    source,
+    headline,
+    subheadline,
+    cta,
+    benefitsText,
+    testimonialsText,
+    whyChooseUsText
+  );
+};
+
 export default function DashboardPage() {
-  const router = useRouter();
   const {
     cachedResponse,
     hasCachedResponse,
     hydrateFromCache,
     saveDraftResponse,
+    generateHtml,
+    generatingHtml,
   } = useGenerate();
 
   const [headline, setHeadline] = useState('');
@@ -163,14 +197,14 @@ export default function DashboardPage() {
   }, [cachedResponse]);
 
   const editorInsights = useMemo(() => {
-    const o = cachedResponse?.insights || [];
+    const o: Insight[] = cachedResponse?.insights || [];
     return {
-      headline: o.filter((i: any) => i.type === 'desire'),
-      subheadline: o.filter((i: any) => i.type === 'desire'),
-      cta: o.filter((i: any) => i.type === 'desire'),
-      benefits: o.filter((i: any) => i.type === 'desire'),
-      testimonials: o.filter((i: any) => i.type === 'desire' || i.type === 'positive'),
-      whyChooseUs: o.filter((i: any) => i.type === 'desire' || i.type === 'positive'),
+      headline: o.filter((i) => i.type === 'desire'),
+      subheadline: o.filter((i) => i.type === 'desire'),
+      cta: o.filter((i) => i.type === 'desire'),
+      benefits: o.filter((i) => i.type === 'desire'),
+      testimonials: o.filter((i) => i.type === 'desire' || i.type === 'keyword'),
+      whyChooseUs: o.filter((i) => i.type === 'desire' || i.type === 'keyword'),
     };
   }, [cachedResponse]);
 
@@ -183,15 +217,15 @@ export default function DashboardPage() {
     setSaveMessage(null);
 
     try {
-      const draft = buildDraftFromEditor(
-        cachedResponse,
+      const draft = buildCurrentDraftFromState({
+        source: cachedResponse,
         headline,
         subheadline,
         cta,
         benefitsText,
         testimonialsText,
-        whyChooseUsText
-      );
+        whyChooseUsText,
+      });
 
       await saveDraftResponse(draft);
       setSaveMessage('Draft saved in browser cache and on server.');
@@ -208,8 +242,46 @@ export default function DashboardPage() {
       return;
     }
 
-    await handleSaveDraft();
-    router.push('/app/render');
+    const previewTab = window.open('about:blank', '_blank');
+    if (!previewTab) {
+      setSaveMessage('Popup blocked. Please allow popups for this site and try again.');
+      return;
+    }
+
+    setSaveMessage(null);
+
+    const draft = buildCurrentDraftFromState({
+      source: cachedResponse,
+      headline,
+      subheadline,
+      cta,
+      benefitsText,
+      testimonialsText,
+      whyChooseUsText,
+    });
+
+    await saveDraftResponse(draft);
+
+    const html = await generateHtml({
+      response: draft,
+      preferences: {
+        style,
+        tone,
+        audience,
+      },
+    });
+
+    if (!html) {
+      previewTab.close();
+      setSaveMessage('Failed to generate HTML. Please try again.');
+      return;
+    }
+
+    previewTab.document.open();
+    previewTab.document.write(html);
+    previewTab.document.close();
+
+    setSaveMessage('Website HTML generated and opened in a new tab.');
   };
 
   if (!hasCachedResponse || !cachedResponse) {
@@ -222,7 +294,6 @@ export default function DashboardPage() {
             items={[
               { label: 'Review Upload', href: '/app', icon: FileSpreadsheet },
               { label: 'AI Insights', href: '/app/dashboard', icon: BrainCircuit },
-              { label: 'Website Preview', href: '/app/render', icon: MonitorSmartphone },
             ]}
           />
           <Card className="mt-8 border border-gray-200 bg-white/70 text-center p-10">
@@ -260,7 +331,6 @@ export default function DashboardPage() {
           items={[
             { label: 'Review Upload', href: '/app', icon: FileSpreadsheet },
             { label: 'AI Insights', href: '/app/dashboard', icon: BrainCircuit },
-            { label: 'Website Preview', href: '/app/render', icon: MonitorSmartphone },
           ]}
         />
 
@@ -375,16 +445,23 @@ export default function DashboardPage() {
                     {saving ? 'Saving...' : 'Save Draft'}
                   </span>
                 </Button>
-                <Button onClick={handleGenerateSite} disabled={saving} className="rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-lg transition">
+                <Button onClick={handleGenerateSite} disabled={saving || generatingHtml} className="rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-md hover:shadow-lg transition">
                   <span className="inline-flex items-center gap-1.5">
                     <WandSparkles className="h-4 w-4 text-indigo-100" />
-                    Open Website Preview
+                    {generatingHtml ? 'Generating HTML...' : 'Generate & Open Website'}
                   </span>
                 </Button>
               </div>
             </div>
 
             <div className="space-y-6">
+              {generatingHtml ? (
+                <div className="rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm text-indigo-800 flex items-center gap-2 font-medium shadow-sm">
+                  <LoaderCircle className="h-4 w-4 animate-spin" />
+                  Generating with Gemini... building a complete HTML website from your finalized insights.
+                </div>
+              ) : null}
+
               {/* MESSAGING CARD */}
               <Card className="bg-white border border-gray-100 shadow-sm rounded-2xl p-6 hover:shadow-md transition duration-300">
                 <h3 className="text-lg font-bold text-gray-900 mb-6 inline-flex items-center gap-2.5">

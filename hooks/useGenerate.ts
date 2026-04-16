@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
-import { GenerateResponse, Insight, Website } from '../types';
-import { generateWebsiteData, persistGeneratedResponse } from '../services/api';
+import { GenerateHtmlRequest, GenerateResponse, Insight, Website } from '../types';
+import { generateWebsiteData, generateWebsiteHtml, persistGeneratedResponse } from '../services/api';
 
 const GENERATE_CACHE_KEY = 'insight2site.generate.response.v1';
+const GENERATED_HTML_CACHE_KEY = 'insight2site.generated.html.v1';
 
 const readCachedResponse = (): GenerateResponse | null => {
   if (typeof window === 'undefined') {
@@ -34,6 +35,35 @@ const writeCachedResponse = (data: GenerateResponse) => {
   window.localStorage.setItem(GENERATE_CACHE_KEY, JSON.stringify(data));
 };
 
+const readCachedHtml = (): string | null => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  const rawValue = window.localStorage.getItem(GENERATED_HTML_CACHE_KEY);
+  if (!rawValue || rawValue.trim().length === 0) {
+    return null;
+  }
+
+  return rawValue;
+};
+
+const writeCachedHtml = (html: string) => {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  window.localStorage.setItem(GENERATED_HTML_CACHE_KEY, html);
+};
+
+const clearCachedHtml = () => {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  window.localStorage.removeItem(GENERATED_HTML_CACHE_KEY);
+};
+
 export const useGenerate = () => {
   const [loading, setLoading] = useState(false);
   const [insights, setInsights] = useState<Insight[]>([]);
@@ -43,10 +73,13 @@ export const useGenerate = () => {
   const [error, setError] = useState<string | null>(null);
   const [hasCachedResponse, setHasCachedResponse] = useState(false);
   const [cachedResponse, setCachedResponse] = useState<GenerateResponse | null>(null);
+  const [generatedHtml, setGeneratedHtml] = useState<string | null>(null);
+  const [generatingHtml, setGeneratingHtml] = useState(false);
 
   useEffect(() => {
     const cached = readCachedResponse();
     setHasCachedResponse(Boolean(cached));
+    setGeneratedHtml(readCachedHtml());
   }, []);
 
   const applyResponse = useCallback((data: GenerateResponse) => {
@@ -64,6 +97,16 @@ export const useGenerate = () => {
     await persistGeneratedResponse(data);
   }, [applyResponse]);
 
+  const saveGeneratedHtml = useCallback((html: string) => {
+    setGeneratedHtml(html);
+    writeCachedHtml(html);
+  }, []);
+
+  const clearGeneratedHtml = useCallback(() => {
+    setGeneratedHtml(null);
+    clearCachedHtml();
+  }, []);
+
   const hydrateFromCache = useCallback((): GenerateResponse | null => {
     const cached = readCachedResponse();
 
@@ -77,8 +120,26 @@ export const useGenerate = () => {
     setSelectedInsightId(null);
     applyResponse(cached);
     setHasCachedResponse(true);
+    setGeneratedHtml(readCachedHtml());
     return cached;
   }, [applyResponse]);
+
+  const generateHtml = useCallback(async (payload: GenerateHtmlRequest): Promise<string | null> => {
+    setGeneratingHtml(true);
+    setError(null);
+
+    try {
+      const html = await generateWebsiteHtml(payload);
+      saveGeneratedHtml(html);
+      return html;
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Failed to generate HTML website.';
+      setError(message);
+      return null;
+    } finally {
+      setGeneratingHtml(false);
+    }
+  }, [saveGeneratedHtml]);
 
   const generate = useCallback(async (text: string): Promise<GenerateResponse | null> => {
     if (!text.trim()) return null;
@@ -89,6 +150,7 @@ export const useGenerate = () => {
 
     try {
       const data = await generateWebsiteData(text);
+      clearGeneratedHtml();
       await saveDraftResponse(data);
       return data;
     } catch (err: unknown) {
@@ -98,20 +160,25 @@ export const useGenerate = () => {
     } finally {
       setLoading(false);
     }
-  }, [saveDraftResponse]);
+  }, [clearGeneratedHtml, saveDraftResponse]);
 
   return {
     loading,
     insights,
     website,
     tone,
+    generatedHtml,
+    generatingHtml,
     cachedResponse,
     selectedInsightId,
     setSelectedInsightId,
     error,
     hasCachedResponse,
     saveDraftResponse,
+    saveGeneratedHtml,
+    clearGeneratedHtml,
     hydrateFromCache,
+    generateHtml,
     generate,
   };
 };
