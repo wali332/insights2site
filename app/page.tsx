@@ -1,7 +1,8 @@
 import React from 'react';
 import { Navbar } from '../components/layout/Navbar';
 import Link from 'next/link';
-import { BadgeCheck, Bot, Building2, ChevronRight, CircleHelp, Crown, FileSearch, Megaphone, Orbit, Rocket, ShieldCheck, Sparkles, Users, Workflow, Wrench } from 'lucide-react';
+import { Bot, Building2, ChevronRight, CircleHelp, FileSearch, Megaphone, Orbit, ShieldCheck, Sparkles, Users, Workflow, Wrench } from 'lucide-react';
+import { PricingSection } from '../components/landing/PricingSection';
 
 export default function LandingPage() {
   return (
@@ -359,65 +360,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="py-24 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="inline-flex items-center gap-2 text-3xl font-bold text-gray-900 mb-4 tracking-tight"><BadgeCheck className="h-7 w-7 text-gray-700" />Transparent Pricing</h2>
-          <p className="text-lg text-gray-500">Simple plans. Upgrade out of the free tier when you&apos;re ready.</p>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          <div className="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col hover:border-gray-300 transition shadow-sm hover:shadow-md">
-            <div className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-600 w-fit">
-              <BadgeCheck className="h-3.5 w-3.5" /> For starters
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Free</h3>
-            <div className="text-3xl font-bold text-gray-900 mb-6">$0<span className="text-lg text-gray-500 font-normal">/mo</span></div>
-            <ul className="space-y-3 mb-8 flex-1 text-gray-600 text-sm">
-              <li className="flex items-start gap-2"><BadgeCheck className="h-4 w-4 mt-0.5 text-gray-500" />Limited generations</li>
-              <li className="flex items-start gap-2"><BadgeCheck className="h-4 w-4 mt-0.5 text-gray-500" />Basic insights logic</li>
-              <li className="flex items-start gap-2"><BadgeCheck className="h-4 w-4 mt-0.5 text-gray-500" />Manual input only</li>
-            </ul>
-            <button className="w-full bg-white border border-gray-200 hover:bg-gray-50 text-gray-900 font-semibold py-2.5 rounded-xl transition">
-              Current Plan
-            </button>
-          </div>
-
-          <div className="bg-white border-2 border-gray-900 rounded-2xl p-8 shadow-xl relative flex flex-col scale-[1.02] z-10 before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-b before:from-gray-900/5 before:to-transparent before:pointer-events-none">
-            <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-3 py-0.5 rounded-full text-xs font-bold tracking-wide inline-flex items-center gap-1">
-              <Crown className="h-3 w-3" /> PRO
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Professional</h3>
-            <div className="text-3xl font-bold text-gray-900 mb-6">$49<span className="text-lg text-gray-500 font-normal">/mo</span></div>
-            <ul className="space-y-3 mb-8 flex-1 text-gray-700 text-sm font-medium">
-              <li className="flex items-start gap-2"><BadgeCheck className="h-4 w-4 mt-0.5 text-gray-900" />Unlimited generations</li>
-              <li className="flex items-start gap-2"><BadgeCheck className="h-4 w-4 mt-0.5 text-gray-900" />Advanced insights matching</li>
-              <li className="flex items-start gap-2"><BadgeCheck className="h-4 w-4 mt-0.5 text-gray-900" />Tailwind theme exports</li>
-              <li className="flex items-start gap-2"><BadgeCheck className="h-4 w-4 mt-0.5 text-gray-900" />Priority support</li>
-            </ul>
-            <button className="w-full inline-flex items-center justify-center gap-2 bg-gray-900 hover:bg-gray-800 text-white font-semibold py-2.5 rounded-xl shadow-md transition transform hover:scale-105 active:scale-95 duration-300">
-              <Rocket className="h-4 w-4" />
-              Upgrade Now
-            </button>
-          </div>
-
-          <div className="bg-white border border-gray-200 rounded-2xl p-8 flex flex-col hover:border-gray-300 transition shadow-sm hover:shadow-md md:col-span-2 lg:col-span-1">
-            <div className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-600 w-fit">
-              <Building2 className="h-3.5 w-3.5" /> For scale
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">Business</h3>
-            <div className="text-3xl font-bold text-gray-900 mb-6">$199<span className="text-lg text-gray-500 font-normal">/mo</span></div>
-            <ul className="space-y-3 mb-8 flex-1 text-gray-600 text-sm">
-              <li className="flex items-start gap-2"><BadgeCheck className="h-4 w-4 mt-0.5 text-gray-500" />Bulk automated processing</li>
-              <li className="flex items-start gap-2"><BadgeCheck className="h-4 w-4 mt-0.5 text-gray-500" />Native REST API access</li>
-              <li className="flex items-start gap-2"><BadgeCheck className="h-4 w-4 mt-0.5 text-gray-500" />Team workspaces</li>
-            </ul>
-            <button className="w-full bg-white border border-gray-200 hover:bg-gray-50 text-gray-900 font-semibold py-2.5 rounded-xl transition">
-              Contact Sales
-            </button>
-          </div>
-        </div>
-      </section>
+      <PricingSection />
 
       {/* Final CTA */}
       <section className="pb-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative z-10">

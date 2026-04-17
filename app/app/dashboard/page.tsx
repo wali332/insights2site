@@ -623,7 +623,7 @@ export default function DashboardPage() {
                   Content Editor
                 </h2>
                 <p className="text-sm text-gray-500 mt-1">
-                  Review and adapt the AI-generated copy.
+                  Review and edit AI-generated copy.
                 </p>
               </div>
               <div className="flex w-full justify-end">
