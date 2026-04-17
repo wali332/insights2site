@@ -3,144 +3,140 @@
     {
       "id": "i1",
       "type": "pain",
-      "text": "Occasional slow service during peak or new opening periods",
+      "text": "Inconsistent staff behavior and customer service quality",
       "usedIn": "benefits"
     },
     {
       "id": "i2",
       "type": "pain",
-      "text": "Potential wait times during weekends",
+      "text": "Occasional parking management issues and overflow logistics",
       "usedIn": "benefits"
     },
     {
       "id": "i3",
       "type": "pain",
-      "text": "Inconsistent experience with specific niche dishes like Kunafa for some palates",
+      "text": "Navigation challenges during peak hours",
       "usedIn": "benefits"
     },
     {
       "id": "i4",
       "type": "desire",
-      "text": "Exceptional ambience described as cozy, calm, and refreshing",
+      "text": "Modern and spacious architectural design",
       "usedIn": "hero"
     },
     {
       "id": "i5",
       "type": "desire",
-      "text": "High-quality continental cuisine including signature Kunafa and Pasta",
+      "text": "Diverse mix of premium and popular retail brands",
       "usedIn": "hero"
     },
     {
       "id": "i6",
       "type": "desire",
-      "text": "Dedicated co-working amenities like free Wi-Fi and meeting rooms",
+      "text": "Excellent entertainment options including PVR cinema and kids' gaming zones",
       "usedIn": "hero"
     },
     {
       "id": "i7",
       "type": "keyword",
-      "text": "Kunafa",
+      "text": "Shopping",
       "usedIn": "cta"
     },
     {
       "id": "i8",
       "type": "keyword",
-      "text": "Co-working",
+      "text": "Entertainment",
       "usedIn": "cta"
     }
   ],
   "website": {
     "hero": {
-      "headline": "Work, Dine, and Connect in BTM’s Favorite Hidden Gem",
-      "subheadline": "Experience the perfect blend of artisanal continental cuisine, premium barista coffee, and a serene co-working environment designed for productivity and play.",
-      "source": "desire: Exceptional ambience described as cozy, calm, and refreshing"
+      "headline": "Your Ultimate Destination for Shopping, Dining, and Fun",
+      "subheadline": "Experience the perfect blend of modern retail, world-class entertainment, and vibrant dining in the heart of South Bengaluru.",
+      "source": "desire: Modern and spacious architectural design"
     },
     "benefits": {
       "items": [
-        "Productive Co-working Hub: High-speed free Wi-Fi and dedicated meeting rooms for seamless WFH sessions.",
-        "Signature Continental Menu: From authentic Turkish Kunafa to creamy Pesto Pasta and gourmet burgers.",
-        "Community Networking: Regular mixers and get-togethers designed to help freelancers and entrepreneurs connect.",
-        "Interactive Entertainment: A variety of board games and Rubik's cubes to enjoy while your fresh meal is prepared."
+        "Curated selection of national and international fashion brands",
+        "State-of-the-art PVR INOX cinema with immersive sound",
+        "Dedicated indoor amusement and gaming zones for kids",
+        "Diverse culinary landscape from quick bites to fine dining"
       ],
-      "source": "pain: Occasional slow service during peak or new opening periods"
+      "source": "pain: Inconsistent staff behavior and customer service quality"
     },
-    "headline": "Work, Dine, and Connect in BTM’s Favorite Hidden Gem",
-    "subheadline": "Experience the perfect blend of artisanal continental cuisine, premium barista coffee, and a serene co-working environment designed for productivity and play.",
+    "headline": "Your Ultimate Destination for Shopping, Dining, and Fun",
+    "subheadline": "Experience the perfect blend of modern retail, world-class entertainment, and vibrant dining in the heart of South Bengaluru.",
     "benefitsList": [
-      "Productive Co-working Hub: High-speed free Wi-Fi and dedicated meeting rooms for seamless WFH sessions.",
-      "Signature Continental Menu: From authentic Turkish Kunafa to creamy Pesto Pasta and gourmet burgers.",
-      "Community Networking: Regular mixers and get-togethers designed to help freelancers and entrepreneurs connect.",
-      "Interactive Entertainment: A variety of board games and Rubik's cubes to enjoy while your fresh meal is prepared."
+      "Curated selection of national and international fashion brands",
+      "State-of-the-art PVR INOX cinema with immersive sound",
+      "Dedicated indoor amusement and gaming zones for kids",
+      "Diverse culinary landscape from quick bites to fine dining"
     ],
     "testimonials": [
-      "A hidden gem for WFH folks. Cozy working space, great coffee, and the signature Kunafa is a must-try!",
-      "The networking mixers have been beneficial for my freelance business. Best place for meetings in BTM.",
-      "Amazing food and service. The environment is so calm and cool, perfect for getting work done or hanging out."
+      "A wonderful experience! The mall is beautifully designed, spacious, and very well maintained. Perfect for a weekend outing.",
+      "What sets this mall apart is its indoor thrill rides and amusement park. It's a fantastic all-around destination."
     ],
-    "cta": "Visit Us or Book a Meeting Space",
+    "cta": "Plan Your Visit Today",
     "why_choose_us": [
-      "Unmatched Ambience: A calm, refreshing escape from the busy streets of BTM.",
-      "Affordable Luxury: High-class continental food at prices that offer great value for money.",
-      "Friendly Hospitality: A team that prioritizes care and respect, making every visit feel personal."
+      "Conveniently located near the Metro for easy accessibility.",
+      "Consistently clean and safe environment for the whole family.",
+      "A balanced mix of leisure, shopping, and entertainment under one roof."
     ],
-    "companyName": "Selenophile  Cafe"
+    "companyName": "Forum "
   },
   "tone": "modern",
   "recommendations": {
-    "preferredStyle": "Minimal Clean",
-    "preferredTone": "Friendly",
-    "preferredAudience": "Startups",
+    "preferredStyle": "Bold Marketing",
+    "preferredTone": "Professional",
+    "preferredAudience": "Enterprise",
     "colorPalettes": [
       {
-        "name": "Midnight Espresso",
+        "name": "Vibrant Urban",
         "colors": [
-          "#1E293B",
-          "#334155",
-          "#0EA5E9",
+          "#0F172A",
+          "#06B6D4",
           "#F8FAFC"
         ],
-        "description": "A sophisticated palette reflecting the cafe's premium coffee and professional co-working vibe."
+        "description": "Energetic colors reflecting the mall's lively atmosphere."
       },
       {
-        "name": "Warm Kunafa",
+        "name": "Premium Sophistication",
         "colors": [
-          "#451A03",
-          "#92400E",
+          "#111827",
+          "#4F46E5",
+          "#F9FAFB"
+        ],
+        "description": "Elegant tones highlighting the premium brand experience."
+      },
+      {
+        "name": "Warm Welcome",
+        "colors": [
+          "#1F2937",
           "#F59E0B",
-          "#FFFBEB"
+          "#FFF7ED"
         ],
-        "description": "Earthy, warm tones inspired by the signature Turkish desserts and cozy interior."
-      },
-      {
-        "name": "Serene Workspace",
-        "colors": [
-          "#064E3B",
-          "#059669",
-          "#D1FAE5",
-          "#FFFFFF"
-        ],
-        "description": "Calming greens and neutrals to emphasize the 'calm and cool' environment mentioned by reviewers."
+        "description": "Inviting colors that emphasize family-friendly comfort."
       }
     ],
-    "preferredColorPalette": "Warm Kunafa",
+    "preferredColorPalette": "Premium Sophistication",
     "generationReasons": {
       "headline": [
-        "Chosen because multiple reviews highlight the cafe as a 'hidden gem' in BTM and a 'perfect cafe to get work done'."
+        "Focuses on the three pillars identified in reviews: shopping, dining, and entertainment."
       ],
       "subheadline": [
-        "Reflects the 'vast variety of continental' food and the 'cozy and calm working space' mentioned by WFH reviewers."
+        "Highlights the location and the modern, all-in-one nature of the mall."
       ],
       "cta": [
-        "Directly addresses the dual utility of the space as both a restaurant and a professional meeting venue."
+        "Direct and action-oriented to encourage foot traffic."
       ],
       "benefits": [
-        "Grounded in specific mentions of 'free wifi,' 'meeting room,' 'affordable price,' and 'games' to keep guests engaged."
+        "Reflects the most praised aspects: brand variety, cinema quality, and family amenities."
       ],
       "testimonials": [
-        "Selected to represent the three core pillars found in reviews: WFH utility, networking benefits, and food quality."
+        "Selected to represent the positive sentiment regarding design and unique entertainment features."
       ],
       "whyChooseUs": [
-        "Based on recurring praise for the 'calm and refreshing ambience' and the 'affordable price' for 'high class food'."
+        "Addresses the convenience and safety factors mentioned by satisfied visitors."
       ]
     }
   }

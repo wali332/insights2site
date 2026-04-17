@@ -8,7 +8,7 @@ import { Card } from '../../../components/ui/Card';
 import { Button } from '../../../components/ui/Button';
 import { ColorPaletteOption, DashboardGenerationReasons, GenerateResponse, Insight, Website } from '../../../types';
 import { useGenerate } from '../../../hooks/useGenerate';
-import { BrainCircuit, CircleAlert, FileSpreadsheet, Save, WandSparkles, LayoutTemplate, Layers, Sparkles, MessageSquare, Target, Users, AlertTriangle, Heart, Download, LoaderCircle } from 'lucide-react';
+import { BrainCircuit, CircleAlert, FileSpreadsheet, WandSparkles, LayoutTemplate, Layers, Sparkles, MessageSquare, Target, Users, AlertTriangle, Heart, Download, LoaderCircle } from 'lucide-react';
 
 const FALLBACK_COLOR_PALETTES: ColorPaletteOption[] = [
   {
@@ -121,6 +121,50 @@ const buildFallbackReasonsFromInsights = (insights: Insight[]): DashboardGenerat
     benefits: collectByUsedIn(['benefits']),
     testimonials: collectByUsedIn(['testimonials', 'social_proof']),
     whyChooseUs: collectByUsedIn(['benefits', 'value', 'why_choose_us']),
+  };
+};
+
+const GENERATE_CACHE_KEY = 'insight2site.generate.response.v1';
+
+const readInitialResponse = (): GenerateResponse | null => {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  const rawValue = window.localStorage.getItem(GENERATE_CACHE_KEY);
+  if (!rawValue) {
+    return null;
+  }
+
+  try {
+    const parsed = JSON.parse(rawValue) as GenerateResponse;
+    if (!parsed?.website) {
+      return null;
+    }
+
+    return parsed;
+  } catch {
+    return null;
+  }
+};
+
+const getInitialDashboardValues = () => {
+  const cached = readInitialResponse();
+  const website = cached?.website;
+  const benefits = website ? getBenefits(website) : [];
+
+  return {
+    headline: website?.hero?.headline || website?.headline || '',
+    subheadline: website?.hero?.subheadline || website?.subheadline || '',
+    cta: website?.cta || 'Get Started',
+    companyName: website?.companyName || '',
+    benefitsText: benefits.join('\n'),
+    testimonialsText: (website?.testimonials || []).join('\n'),
+    whyChooseUsText: (website?.why_choose_us || []).join('\n'),
+    style: cached?.recommendations?.preferredStyle || 'Modern SaaS',
+    tone: cached?.recommendations?.preferredTone || 'Professional',
+    audience: cached?.recommendations?.preferredAudience || 'Startups',
+    selectedPaletteName: cached?.recommendations?.preferredColorPalette || 'Modern Indigo',
   };
 };
 
@@ -257,63 +301,30 @@ export default function DashboardPage() {
     hydrateFromCache,
     saveDraftResponse,
     generateHtml,
+    generatedHtml,
     generatingHtml,
   } = useGenerate();
 
-  const [headline, setHeadline] = useState('');
-  const [subheadline, setSubheadline] = useState('');
-  const [cta, setCta] = useState('');
-  const [companyName, setCompanyName] = useState('');
-  const [benefitsText, setBenefitsText] = useState('');
-  const [testimonialsText, setTestimonialsText] = useState('');
-  const [whyChooseUsText, setWhyChooseUsText] = useState('');
-  
-  // Customization state
-  const [style, setStyle] = useState('Modern SaaS');
-  const [tone, setTone] = useState('Professional');
-  const [audience, setAudience] = useState('Startups');
-  const [selectedPaletteName, setSelectedPaletteName] = useState('Modern Indigo');
+  const initialDashboardValues = useMemo(() => getInitialDashboardValues(), []);
 
-  const [saving, setSaving] = useState(false);
+  const [headline, setHeadline] = useState(initialDashboardValues.headline);
+  const [subheadline, setSubheadline] = useState(initialDashboardValues.subheadline);
+  const [cta, setCta] = useState(initialDashboardValues.cta);
+  const [companyName, setCompanyName] = useState(initialDashboardValues.companyName);
+  const [benefitsText, setBenefitsText] = useState(initialDashboardValues.benefitsText);
+  const [testimonialsText, setTestimonialsText] = useState(initialDashboardValues.testimonialsText);
+  const [whyChooseUsText, setWhyChooseUsText] = useState(initialDashboardValues.whyChooseUsText);
+
+  // Customization state
+  const [style, setStyle] = useState(initialDashboardValues.style);
+  const [tone, setTone] = useState(initialDashboardValues.tone);
+  const [audience, setAudience] = useState(initialDashboardValues.audience);
+  const [selectedPaletteName, setSelectedPaletteName] = useState(initialDashboardValues.selectedPaletteName);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
-  const [generatedHtml, setGeneratedHtml] = useState<string | null>(null);
 
   useEffect(() => {
     hydrateFromCache();
   }, [hydrateFromCache]);
-
-  useEffect(() => {
-    if (!cachedResponse?.website) {
-      return;
-    }
-
-    const website = cachedResponse.website;
-    const benefits = getBenefits(website);
-
-    setHeadline(website.hero?.headline || website.headline || '');
-    setSubheadline(website.hero?.subheadline || website.subheadline || '');
-    setCta(website.cta || 'Get Started');
-    setCompanyName(website.companyName || '');
-    setBenefitsText(benefits.join('\n'));
-    setTestimonialsText((website.testimonials || []).join('\n'));
-    setWhyChooseUsText((website.why_choose_us || []).join('\n'));
-
-    const recommendations = cachedResponse.recommendations;
-    if (recommendations?.preferredStyle) {
-      setStyle(recommendations.preferredStyle);
-    }
-    if (recommendations?.preferredTone) {
-      setTone(recommendations.preferredTone);
-    }
-    if (recommendations?.preferredAudience) {
-      setAudience(recommendations.preferredAudience);
-    }
-    if (recommendations?.preferredColorPalette) {
-      setSelectedPaletteName(recommendations.preferredColorPalette);
-    } else if (recommendations?.colorPalettes?.[0]?.name) {
-      setSelectedPaletteName(recommendations.colorPalettes[0].name);
-    }
-  }, [cachedResponse]);
 
   const insightGroups = useMemo(() => {
     const insights = cachedResponse?.insights || [];
@@ -385,48 +396,12 @@ export default function DashboardPage() {
     setSaveMessage('HTML file downloaded successfully.');
   };
 
-  const handleSaveDraft = async () => {
-    if (!cachedResponse) {
-      return;
-    }
-
-    setSaving(true);
-    setSaveMessage(null);
-
-    try {
-      const draft = buildCurrentDraftFromState({
-        source: cachedResponse,
-        companyName,
-        headline,
-        subheadline,
-        cta,
-        benefitsText,
-        testimonialsText,
-        whyChooseUsText,
-        style,
-        tone,
-        audience,
-        colorPalettes,
-        selectedPaletteName,
-      });
-
-      await saveDraftResponse(draft);
-      setSaveMessage('Draft saved in browser cache and on server.');
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Failed to save draft.';
-      setSaveMessage(message);
-    } finally {
-      setSaving(false);
-    }
-  };
-
   const handleGenerateSite = async () => {
     if (!cachedResponse) {
       return;
     }
 
     setSaveMessage(null);
-    setGeneratedHtml(null);
 
     const draft = buildCurrentDraftFromState({
       source: cachedResponse,
@@ -462,7 +437,6 @@ export default function DashboardPage() {
       return;
     }
 
-    setGeneratedHtml(html);
     setSaveMessage('Site created. Click Open Site to preview it.');
   };
 
@@ -644,7 +618,7 @@ export default function DashboardPage() {
           <div>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 sticky top-24 z-20 bg-[#fafafa]/80 backdrop-blur-md py-4 -mt-4 border-b border-transparent">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2.5">
+                <h2 className="flex items-center gap-2.5 whitespace-nowrap text-xl font-bold text-gray-900 lg:text-2xl">
                   <Layers className="h-6 w-6 text-violet-700" />
                   Content Editor
                 </h2>
@@ -652,35 +626,37 @@ export default function DashboardPage() {
                   Review and adapt the AI-generated copy.
                 </p>
               </div>
-              <div className="flex items-center gap-3">
-                <Button variant="secondary" onClick={handleSaveDraft} disabled={saving} className="rounded-xl bg-white shadow-sm border border-gray-200 hover:bg-gray-50 text-gray-800">
-                  <span className="inline-flex items-center gap-1.5">
-                    <Save className="h-4 w-4" />
-                    {saving ? 'Saving...' : 'Save Draft'}
-                  </span>
-                </Button>
-                {generatedHtml && (
-                  <Button onClick={handleDownloadHtml} className="rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white shadow-md hover:shadow-lg transition">
-                    <span className="inline-flex items-center gap-1.5">
-                      <Download className="h-4 w-4" />
-                      Download HTML
+              <div className="flex w-full justify-end">
+                <div className="flex w-full max-w-[760px] flex-wrap justify-end gap-3">
+                  {generatedHtml ? (
+                    <Button
+                      variant="secondary"
+                      onClick={handleDownloadHtml}
+                      aria-label="Download"
+                      title="Download"
+                      className="h-12 min-w-[132px] justify-center rounded-xl px-4 whitespace-nowrap"
+                    >
+                      <span className="inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-medium text-gray-800">
+                        <Download className="h-4 w-4 text-gray-500" />
+                        Download
+                      </span>
+                    </Button>
+                  ) : null}
+                  {generatedHtml ? (
+                    <Button variant="secondary" onClick={handleOpenHtml} className="h-12 min-w-[116px] justify-center rounded-xl px-4 whitespace-nowrap">
+                      <span className="inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-medium text-gray-800">
+                        <WandSparkles className="h-4 w-4 text-gray-500" />
+                        Open Site
+                      </span>
+                    </Button>
+                  ) : null}
+                  <Button onClick={handleGenerateSite} disabled={generatingHtml} className="h-12 min-w-[148px] justify-center rounded-xl bg-gray-900 px-4 text-white shadow-md transition hover:bg-gray-800 hover:shadow-lg whitespace-nowrap">
+                    <span className="inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-medium">
+                      <WandSparkles className="h-4 w-4 text-gray-200" />
+                      Generate Site
                     </span>
                   </Button>
-                )}
-                {generatedHtml && (
-                  <Button onClick={handleOpenHtml} className="rounded-xl bg-cyan-700 hover:bg-cyan-800 text-white shadow-md hover:shadow-lg transition">
-                    <span className="inline-flex items-center gap-1.5">
-                      <WandSparkles className="h-4 w-4 text-cyan-100" />
-                      Open Site
-                    </span>
-                  </Button>
-                )}
-                <Button onClick={handleGenerateSite} disabled={saving || generatingHtml} className="rounded-xl bg-gray-900 hover:bg-gray-800 text-white shadow-md hover:shadow-lg transition">
-                  <span className="inline-flex items-center gap-1.5">
-                    <WandSparkles className="h-4 w-4 text-gray-200" />
-                    Generate Site
-                  </span>
-                </Button>
+                </div>
               </div>
             </div>
 
