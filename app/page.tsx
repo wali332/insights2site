@@ -309,18 +309,26 @@ export default function LandingPage() {
           <div className="space-y-4">
             <details className="group rounded-2xl border border-gray-200 bg-white p-5 open:shadow-md open:border-gray-300 transition-all">
               <summary className="list-none cursor-pointer flex items-center justify-between gap-3 text-gray-900 font-semibold text-base">
-                Do I need technical knowledge to use it?
+                What does Insight2Site do?
                 <ChevronRight className="h-5 w-5 text-gray-400 transition-transform duration-300 group-open:rotate-90" />
               </summary>
-              <p className="mt-3 text-sm text-gray-600 leading-relaxed pr-8">No. Upload your reviews CSV, select the review column, and generate. You can edit KPI and copy in a dashboard before rendering the final HTML.</p>
+              <p className="mt-3 text-sm text-gray-600 leading-relaxed pr-8">Insight2Site transforms raw customer reviews into a complete, conversion-focused website using AI.</p>
             </details>
 
             <details className="group rounded-2xl border border-gray-200 bg-white p-5 open:shadow-md open:border-gray-300 transition-all">
               <summary className="list-none cursor-pointer flex items-center justify-between gap-3 text-gray-900 font-semibold text-base">
-                Can I reuse generated data without calling the model again?
+                How is this different from using ChatGPT?
                 <ChevronRight className="h-5 w-5 text-gray-400 transition-transform duration-300 group-open:rotate-90" />
               </summary>
-              <p className="mt-3 text-sm text-gray-600 leading-relaxed pr-8">Yes. Cached JSON can be reused, and drafts are also saved physically on the server so your team can continue editing without extra generation calls.</p>
+              <p className="mt-3 text-sm text-gray-600 leading-relaxed pr-8">Instead of generating text directly, Insight2Site first extracts structured insights from reviews and then uses them to generate a more accurate and consistent website.</p>
+            </details>
+
+            <details className="group rounded-2xl border border-gray-200 bg-white p-5 open:shadow-md open:border-gray-300 transition-all">
+              <summary className="list-none cursor-pointer flex items-center justify-between gap-3 text-gray-900 font-semibold text-base">
+                Can I edit the generated website?
+                <ChevronRight className="h-5 w-5 text-gray-400 transition-transform duration-300 group-open:rotate-90" />
+              </summary>
+              <p className="mt-3 text-sm text-gray-600 leading-relaxed pr-8">Yes — you can refine content, adjust tone, and customize before exporting.</p>
             </details>
 
             <details className="group rounded-2xl border border-gray-200 bg-white p-5 open:shadow-md open:border-gray-300 transition-all">
@@ -328,16 +336,25 @@ export default function LandingPage() {
                 What output formats do I get?
                 <ChevronRight className="h-5 w-5 text-gray-400 transition-transform duration-300 group-open:rotate-90" />
               </summary>
-              <p className="mt-3 text-sm text-gray-600 leading-relaxed pr-8">You get structured insight JSON plus a final downloadable HTML landing page generated from one of multiple template styles.</p>
+              <p className="mt-3 text-sm text-gray-600 leading-relaxed pr-8">You get a fully downloadable HTML website along with structured insights.</p>
             </details>
 
             <details className="group rounded-2xl border border-gray-200 bg-white p-5 open:shadow-md open:border-gray-300 transition-all">
               <summary className="list-none cursor-pointer flex items-center justify-between gap-3 text-gray-900 font-semibold text-base">
-                Is my review data private?
+                Can I reuse the generated data without running the AI again?
                 <ChevronRight className="h-5 w-5 text-gray-400 transition-transform duration-300 group-open:rotate-90" />
               </summary>
-              <p className="mt-3 text-sm text-gray-600 leading-relaxed pr-8">The app stores generated artifacts and drafts in your own deployment environment. You control hosting, access, and retention policy for uploaded files.</p>
+              <p className="mt-3 text-sm text-gray-600 leading-relaxed pr-8">Yes — your generated insights and content can be reused and edited anytime.</p>
             </details>
+
+            <details className="group rounded-2xl border border-gray-200 bg-white p-5 open:shadow-md open:border-gray-300 transition-all">
+              <summary className="list-none cursor-pointer flex items-center justify-between gap-3 text-gray-900 font-semibold text-base">
+                Is my data private?
+                <ChevronRight className="h-5 w-5 text-gray-400 transition-transform duration-300 group-open:rotate-90" />
+              </summary>
+              <p className="mt-3 text-sm text-gray-600 leading-relaxed pr-8">Your data is processed securely and not shared with third parties.</p>
+            </details>
+
           </div>
         </div>
       </section>
