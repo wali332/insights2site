@@ -34,8 +34,9 @@ yarn-error.log*
 .env*
 !.env.example
 
-# generated uploads and AI artifacts
+# generated uploads and AI artifacts (reviews, model output, HTML)
 public/uploads/
+*.html
 
 # vercel
 .vercel
@@ -43,6 +44,3 @@ public/uploads/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-*.json
-*.html
